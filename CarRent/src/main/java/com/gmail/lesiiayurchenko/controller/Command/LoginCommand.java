@@ -11,45 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginCommand implements Command {
     private static final Logger log = Logger.getLogger(LoginCommand.class);
 
-    AccountService accountService = new AccountService();
-
     @Override
     public String execute(HttpServletRequest request) {
         log.debug("Command starts");
         String login = request.getParameter("login");
         log.trace("Request parameter: loging --> " + login);
-        String pass = request.getParameter("pass");
-
-        if (login == null || login.equals("") || pass == null || pass.equals("")) {
-            log.trace("Login or password is empty");
-            log.debug("Command finished");
-            return "/login.jsp";
-        }
-
-        try {
-            if (!accountService.login(login).isPresent()) {
-                log.trace("Login or password is wrong");
-                log.debug("Command finished");
-                return "/login.jsp";
-            }
-        } catch (DBException e) {
-            log.error("Cannot check account with DB", e);
-            return "/WEB-INF/error.jsp";
-        }
-
-        Account account;
-        try {
-            account = accountService.login(login).get();
-        } catch (DBException e) {
-            log.error("Cannot get account by login", e);
-            return "/WEB-INF/error.jsp";
-        }
-
-        if (!pass.equals(account.getPassword())) {
-            log.trace("Login or password is wrong");
-            log.debug("Command finished");
-            return "/login.jsp";
-        }
+        Account.Role role = (Account.Role)(request.getAttribute("role"));
+        log.trace("Request parameter: role --> " + role);
+        int id = (Integer)(request.getAttribute("id"));
+        log.trace("Request parameter: id --> " + id);
 
         if (CommandUtility.checkAccountIsLogged(request, login)) {
             log.trace("Error: account is already logged");
@@ -57,18 +27,18 @@ public class LoginCommand implements Command {
             return "/WEB-INF/error.jsp";
         }
 
-        if (Account.Role.ADMIN.equals(account.getRole())) {
-            CommandUtility.putInfoIntoSession(request, Account.Role.ADMIN, login, account.getId());
+        if (Account.Role.ADMIN.equals(role)) {
+            CommandUtility.putInfoIntoSession(request, Account.Role.ADMIN, login, id);
             log.trace("Admin " + login + " logged successfully");
             log.debug("Command finished");
             return "redirect:/admincars";
-        } else if (Account.Role.MANAGER.equals(account.getRole())) {
-            CommandUtility.putInfoIntoSession(request, Account.Role.MANAGER, login, account.getId());
+        } else if (Account.Role.MANAGER.equals(role)) {
+            CommandUtility.putInfoIntoSession(request, Account.Role.MANAGER, login, id);
             log.trace("Manager" + login + " logged successfully");
             log.debug("Command finished");
             return "redirect:/managernewbookings";
-        } else if (Account.Role.CUSTOMER.equals(account.getRole())) {
-            CommandUtility.putInfoIntoSession(request, Account.Role.CUSTOMER, login, account.getId());
+        } else if (Account.Role.CUSTOMER.equals(role)) {
+            CommandUtility.putInfoIntoSession(request, Account.Role.CUSTOMER, login, id);
             log.trace("Customer" + login + " logged successfully");
             log.debug("Command finished");
             return "redirect:/customerbasis";

@@ -5,6 +5,7 @@ import com.gmail.lesiiayurchenko.model.dao.DBException;
 import com.gmail.lesiiayurchenko.model.dao.DaoFactory;
 import com.gmail.lesiiayurchenko.model.entity.Car;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class CarService {
@@ -35,7 +36,7 @@ public class CarService {
         }
     }
 
-    public void addCar(String model, String licensePlate, Car.QualityClass qualityClass, double price) throws DBException {
+    public void addCar(String model, String licensePlate, Car.QualityClass qualityClass, BigDecimal price) throws DBException {
         Car car = new Car();
         car.setModel(model);
         car.setLicensePlate(licensePlate);

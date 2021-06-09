@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `car_rent`.`car` (
   `model` VARCHAR(120) NOT NULL,
   `license_plate` VARCHAR(10) NOT NULL,
   `quality_class_id` INT UNSIGNED NOT NULL,
-  `price` DOUBLE UNSIGNED NOT NULL,
+  `price` DECIMAL UNSIGNED NOT NULL,
   `available` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,

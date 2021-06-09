@@ -113,8 +113,14 @@
             <td>
                 <form method="post" action="${pageContext.request.contextPath}/adminchanges">
                     <input type="hidden" name="id" value="${i.id}"/>
-                    <input type="text" name="model" required placeholder="<fmt:message key="label.Model" />"><br/>
-                    <input type="text" name="licensePlate" required placeholder="<fmt:message key="label.LicensePlate" />"><br/>
+                    <input type="text" name="model" required placeholder="<fmt:message key="label.Model" />"
+                           title="<fmt:message key="label.EnterModel"/>"
+                           oninvalid="this.setCustomValidity('<fmt:message key="label.EnterModel"/>')" oninput="setCustomValidity('')"
+                           placeholder="<fmt:message key="label.EnterModel" />"><br/>
+                    <input type="text" name="licensePlate" required pattern="([A-Z]{2})([0-9]{4})([A-Z]{2})"
+                           title="<fmt:message key="label.WrongLicensePlate"/>"
+                           oninvalid="this.setCustomValidity('<fmt:message key="label.WrongLicensePlate"/>')" oninput="setCustomValidity('')"
+                           placeholder="<fmt:message key="label.LicensePlate" />"><br/>
                     <select class="selectpicker" name="qualityClass">
                         <c:forEach items="<%=QualityClass.values()%>" var="qualityClass">
                             <option value="${qualityClass.name()}">${qualityClass.toString()}</option>
@@ -177,8 +183,14 @@
 <main class="menu">
     <h3 align="center"> <fmt:message key="label.NewCar"/>: </h3>
     <form method="post" action="${pageContext.request.contextPath}/adminchanges">
-        <input type="text" name="model" required placeholder="<fmt:message key="label.Model" />">
-        <input type="text" name="licensePlate" required placeholder="<fmt:message key="label.LicensePlate" />">
+        <input type="text" name="model" required placeholder="<fmt:message key="label.Model" />"
+               title="<fmt:message key="label.EnterModel"/>"
+               oninvalid="this.setCustomValidity('<fmt:message key="label.EnterModel"/>')" oninput="setCustomValidity('')"
+               placeholder="<fmt:message key="label.EnterModel" />">
+        <input type="text" name="licensePlate" required pattern="([A-Z]{2})([0-9]{4})([A-Z]{2})"
+               title="<fmt:message key="label.WrongLicensePlate"/>"
+               oninvalid="this.setCustomValidity('<fmt:message key="label.WrongLicensePlate"/>')" oninput="setCustomValidity('')"
+               placeholder="<fmt:message key="label.LicensePlate" />">
         <select class="selectpicker" name="qualityClass">
             <c:forEach items="<%=QualityClass.values()%>" var="qualityClass">
                 <option value="${qualityClass.name()}">${qualityClass.toString()}</option>

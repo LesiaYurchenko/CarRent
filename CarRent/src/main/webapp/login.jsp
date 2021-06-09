@@ -63,7 +63,6 @@
     .menu-2 li:hover a {
         color: #0e25c0;
     }
-
 </style>
 
 <br>
@@ -82,8 +81,20 @@
 <h1 align="center"><fmt:message key="label.LoginPlease" /></h1><br/>
 <br>
 <form class="menu" method="post" action="${pageContext.request.contextPath}/login">
-    <input type="text" name="login" required placeholder="<fmt:message key="label.login" />"><br/>
-    <input type="password" name="pass" required placeholder="<fmt:message key="label.password" />"><br/><br/>
+    <input type="text" name="login" required pattern="[a-zA-Zа-яА-ЯёЁїЇіІєЄ0-9]{3,10}"
+           title="<fmt:message key="label.WrongLogin"/>"
+           oninvalid="this.setCustomValidity('<fmt:message key="label.WrongLogin"/>')" oninput="setCustomValidity('')"
+           placeholder="<fmt:message key="label.login" />"><br/><br/>
+    <input type="password"  name="pass" required
+           title="<fmt:message key="label.WrongPassword"/>"
+           oninvalid="this.setCustomValidity('<fmt:message key="label.WrongPassword"/>')" oninput="setCustomValidity('')"
+           pattern="[a-zA-Zа-яА-ЯёЁїЇіІєЄ0-9]{5,10}"
+           placeholder="<fmt:message key="label.password" />"><br/><br/>
+
+    <c:if test="${wrong}">
+        <h3 align = "center"><fmt:message key="label.WrongAuth" /></h3>
+    </c:if>
+
     <input class="button" type="submit" value="<fmt:message key="label.Login"/>">
 </form>
 

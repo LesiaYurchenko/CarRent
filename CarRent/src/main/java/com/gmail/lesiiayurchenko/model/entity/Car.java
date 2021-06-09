@@ -1,5 +1,6 @@
 package com.gmail.lesiiayurchenko.model.entity;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Car {
@@ -11,11 +12,11 @@ public class Car {
         CITY_CAR, FAMILY_CAR, SPORTS_CAR, LUXURY
     }
     private QualityClass qualityClass;
-    private double price;
+    private BigDecimal price;
     private boolean available;
 
     public Car(int id, String model, String licensePlate, QualityClass qualityClass,
-               double price, boolean available) {
+               BigDecimal price, boolean available) {
         this.id = id;
         this.model = model;
         this.licensePlate = licensePlate;
@@ -59,11 +60,11 @@ public class Car {
         this.qualityClass = qualityClass;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -80,9 +81,8 @@ public class Car {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return id == car.id && Double.compare(car.price, price) == 0 && available == car.available
-                && model.equals(car.model) && licensePlate.equals(car.licensePlate)
-                && qualityClass == car.qualityClass;
+        return id == car.id && available == car.available && model.equals(car.model) &&
+                licensePlate.equals(car.licensePlate) && qualityClass == car.qualityClass && price.equals(car.price);
     }
 
     @Override

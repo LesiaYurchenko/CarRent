@@ -8,6 +8,7 @@ import com.gmail.lesiiayurchenko.model.service.CarService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 
 public class AdminChangesCommand implements Command {
     private static final Logger log = Logger.getLogger(AdminChangesCommand.class);
@@ -66,7 +67,7 @@ public class AdminChangesCommand implements Command {
         String model = request.getParameter("model");
         String licensePlate = request.getParameter("licensePlate");
         Car.QualityClass qualityClass = Car.QualityClass.valueOf(request.getParameter("qualityClass"));
-        double price = Double.parseDouble(request.getParameter("price"));
+        BigDecimal price = new BigDecimal(request.getParameter("price").replace(",", "."));
         boolean available = "yes".equals(request.getParameter("available"));
 
         car.setModel(model);
@@ -99,7 +100,7 @@ public class AdminChangesCommand implements Command {
         String model = request.getParameter("model");
         String licensePlate = request.getParameter("licensePlate");
         Car.QualityClass qualityClass = Car.QualityClass.valueOf(request.getParameter("qualityClass"));
-        double price = Double.parseDouble(request.getParameter("price"));
+        BigDecimal price = new BigDecimal(request.getParameter("price").replace(",", "."));
 
         try {
             carService.addCar(model, licensePlate,qualityClass, price);

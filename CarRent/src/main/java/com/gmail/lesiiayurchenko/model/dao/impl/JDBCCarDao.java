@@ -28,7 +28,7 @@ public class JDBCCarDao implements CarDao {
             pstmt.setString(k++, entity.getModel());
             pstmt.setString(k++, entity.getLicensePlate());
             pstmt.setInt(k++, entity.getQualityClass().ordinal()+1);
-            pstmt.setDouble(k++, entity.getPrice());
+            pstmt.setBigDecimal(k++, entity.getPrice());
             pstmt.setInt(k++, entity.isAvailable()?1:0);
             pstmt.executeUpdate();
         } catch (SQLException e){
@@ -333,7 +333,7 @@ public class JDBCCarDao implements CarDao {
             pstmt.setString(k++, entity.getModel());
             pstmt.setString(k++, entity.getLicensePlate());
             pstmt.setInt(k++, entity.getQualityClass().ordinal()+1);
-            pstmt.setDouble(k++, entity.getPrice());
+            pstmt.setBigDecimal(k++, entity.getPrice());
             pstmt.setInt(k++, entity.isAvailable()?1:0);
             pstmt.setInt(k, entity.getId());
             pstmt.executeUpdate();

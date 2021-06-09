@@ -92,9 +92,12 @@
 <br>
 <br>
 <form method="post" action="${pageContext.request.contextPath}/customerbook">
-    <fmt:message key="label.Passport" />: <input type="text" name="passport" required
-                                                 placeholder="<fmt:message key="label.Passport" />"><br/>
-    <style> #price::-webkit-inner-spin-button {opacity: 1;} </style>
+    <fmt:message key="label.Passport"/>:<input type="text" name="passport" required pattern="([A-Z]{2})([0-9]{6})|[0-9]{9}"
+           title="<fmt:message key="label.WrongPassport"/>"
+           oninvalid="this.setCustomValidity('<fmt:message key="label.WrongPassport"/>')" oninput="setCustomValidity('')"
+           placeholder="<fmt:message key="label.Passport" />"><br/><br/>
+
+    <style> #leaseTerm::-webkit-inner-spin-button {opacity: 1;} </style>
     <fmt:message key="label.LeaseTerm" />: <input type="number" id= "leaseTerm" name="leaseTerm" required
                                                   placeholder="<fmt:message key="label.LeaseTerm" />" min="0"/><br/>
     <fmt:message key="label.Driver" />: <select name="driver">

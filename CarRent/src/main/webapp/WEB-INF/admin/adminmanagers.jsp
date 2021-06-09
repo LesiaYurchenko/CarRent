@@ -115,14 +115,14 @@
                 <form method="post" action="${pageContext.request.contextPath}/adminchanges">
                     <input type="hidden" name="id" value="${i.id}"/>
                     <input type="hidden" name="act" value="Block Manager"/>
-                    <input class="button" type="submit" name="action" value=<fmt:message key="label.BlockManager" />">
+                    <input class="button" type="submit" name="action" value="<fmt:message key="label.BlockManager" />">
                 </form>
             </td>
             <td align="center">
                 <form action="${pageContext.request.contextPath}/adminchanges" method="post">
                     <input type="hidden" name="id" value="${i.id}"/>
                     <input type="hidden" name="act" value="Unblock Manager"/>
-                    <input class="button" type="submit" name="action" value=<fmt:message key="label.UnblockManager" />">
+                    <input class="button" type="submit" name="action" value="<fmt:message key="label.UnblockManager" />">
                 </form>
             </td>
             </c:forEach>
@@ -160,14 +160,24 @@
     </nav>
 </main>
 <br>
-</main>
+
 <main class="menu">
     <h3 align="center"> <fmt:message key="label.NewManager" />: </h3>
     <form method="post" action="${pageContext.request.contextPath}/adminchanges">
-        <input type="text" name="login" required placeholder="<fmt:message key="label.login" />">
-        <input type="password" name="password" required placeholder="<fmt:message key="label.password" />">
-        <input type="text" name="email" required placeholder="<fmt:message key="label.email" />"><br/>
-
+        <input type="text" name="login" required pattern="[a-zA-Zа-яА-ЯёЁїЇіІєЄ0-9]{3,10}"
+               title="<fmt:message key="label.WrongLogin"/>"
+               oninvalid="this.setCustomValidity('<fmt:message key="label.WrongLogin"/>')" oninput="setCustomValidity('')"
+               placeholder="<fmt:message key="label.login" />">
+        <input type="password" id="2" name="password" required
+               title="<fmt:message key="label.WrongPassword"/>"
+               oninvalid="this.setCustomValidity('<fmt:message key="label.WrongPassword"/>')" oninput="setCustomValidity('')"
+               pattern="[a-zA-Zа-яА-ЯёЁїЇіІєЄ0-9]{5,10}"
+               placeholder="<fmt:message key="label.password" />">
+        <input type="email" id="3" name="email" required
+               title="<fmt:message key="label.WrongEmail"/>"
+               oninvalid="this.setCustomValidity('<fmt:message key="label.WrongEmail"/>')"
+               oninput="setCustomValidity('<fmt:message key="label.WrongEmail"/>')"
+               placeholder="<fmt:message key="label.email" />"><br/>
         <br>
         <input type="hidden" name="act" value="Register New Manager"/>
         <input class="button" type="submit" name="action"

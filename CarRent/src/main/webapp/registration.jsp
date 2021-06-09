@@ -74,22 +74,37 @@
 </style>
 
 <ul class="menu-2">
-    <li><a href="${pageContext.request.contextPath}/main"><fmt:message key="label.Main" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/login.jsp"><fmt:message key="label.Login" /></a></li>
-    <fmt:message key="label.Language" />
-    <li><a href="?lang=en"><fmt:message key="label.en" /></a></li>
-    <li><a href="?lang=ua"><fmt:message key="label.ua" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/main"><fmt:message key="label.Main"/></a></li>
+    <li><a href="${pageContext.request.contextPath}/login.jsp"><fmt:message key="label.Login"/></a></li>
+    <fmt:message key="label.Language"/>
+    <li><a href="?lang=en"><fmt:message key="label.en"/></a></li>
+    <li><a href="?lang=ua"><fmt:message key="label.ua"/></a></li>
 </ul>
 <br>
 <br>
-<h1 align="center"><fmt:message key="label.RegisterPlease" /></h1><br/>
+<h1 align="center"><fmt:message key="label.RegisterPlease"/></h1><br/>
 <br>
 <form class="menu" method="post" action="${pageContext.request.contextPath}/registration">
-    <input type="text" name="login" required placeholder="<fmt:message key="label.login" />">
-    <input type="password" name="password" required placeholder="<fmt:message key="label.password" />">
-    <input type="text" name="email" required placeholder="<fmt:message key="label.email" />"><br/>
+
+    <label for="1"><fmt:message key="label.login"/></label>
+    <input type="text" id="1" name="login" required pattern="[a-zA-Zа-яА-ЯёЁїЇіІєЄ0-9]{3,10}"
+           title="<fmt:message key="label.WrongLogin"/>"
+           oninvalid="this.setCustomValidity('<fmt:message key="label.WrongLogin"/>')" oninput="setCustomValidity('')"
+           placeholder="<fmt:message key="label.login" />"><br/>
+    <label for="2"><fmt:message key="label.password"/></label>
+    <input type="password" id="2" name="password" required
+           title="<fmt:message key="label.WrongPassword"/>"
+           oninvalid="this.setCustomValidity('<fmt:message key="label.WrongPassword"/>')" oninput="setCustomValidity('')"
+           pattern="[a-zA-Zа-яА-ЯёЁїЇіІєЄ0-9]{5,10}"
+           placeholder="<fmt:message key="label.password" />"><br/>
+    <label for="3"><fmt:message key="label.email"/></label>
+    <input type="email" id="3" name="email" required
+           title="<fmt:message key="label.WrongEmail"/>"
+           oninvalid="this.setCustomValidity('<fmt:message key="label.WrongEmail"/>')"
+           oninput="setCustomValidity('<fmt:message key="label.WrongEmail"/>')"
+           placeholder="<fmt:message key="label.email" />"><br/>
     <br>
-    <input class="button" type="submit" name="register" value="<fmt:message key="label.Registration" />">
+    <input class="button" type="submit" name="register" value="<fmt:message key="label.Registration" />"><br/>
 </form>
 
 </body>

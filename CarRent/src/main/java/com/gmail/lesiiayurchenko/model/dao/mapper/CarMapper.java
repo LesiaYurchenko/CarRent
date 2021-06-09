@@ -15,7 +15,7 @@ public class CarMapper implements ObjectMapper<Car> {
         car.setModel(rs.getString("model"));
         car.setLicensePlate(rs.getString("license_plate"));
         car.setQualityClass(Car.QualityClass.values()[rs.getInt("quality_class_id")-1]);
-        car.setPrice(rs.getDouble("price"));
+        car.setPrice(rs.getBigDecimal("price"));
         car.setAvailable(rs.getInt("available") != 0);
         return car;
     }

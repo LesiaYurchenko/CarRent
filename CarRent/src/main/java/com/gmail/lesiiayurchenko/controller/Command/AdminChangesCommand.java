@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 public class AdminChangesCommand implements Command {
     private static final Logger log = Logger.getLogger(AdminChangesCommand.class);
@@ -22,42 +23,42 @@ public class AdminChangesCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-            String act = request.getParameter("act");
-            String page;
-            switch (act) {
-                case "Update Car":
-                    page = updateCar(request);
-                    break;
-                case "Delete Car":
-                    page = deleteCar(request);
-                    break;
-                case "Add New Car":
-                    page = createCar(request);
-                    break;
-                case "Block Customer":
-                    page = blockCustomer(request);
-                    break;
-                case "Unblock Customer":
-                    page = unblockCustomer(request);
-                    break;
-                case "Block Manager":
-                    page = blockManager(request);
-                    break;
-                case "Unblock Manager":
-                    page = unblockManager(request);
-                    break;
-                case "Register New Manager":
-                    page = registerNewManager(request);
-                    break;
-                default:
-                    page = "redirect:/admincars";
-                    break;
-            }
-            return page;
+        String act = request.getParameter("act");
+        String page;
+        switch (act) {
+            case "Update Car":
+                page = updateCar(request);
+                break;
+            case "Delete Car":
+                page = deleteCar(request);
+                break;
+            case "Add New Car":
+                page = createCar(request);
+                break;
+            case "Block Customer":
+                page = blockCustomer(request);
+                break;
+            case "Unblock Customer":
+                page = unblockCustomer(request);
+                break;
+            case "Block Manager":
+                page = blockManager(request);
+                break;
+            case "Unblock Manager":
+                page = unblockManager(request);
+                break;
+            case "Register New Manager":
+                page = registerNewManager(request);
+                break;
+            default:
+                page = "redirect:/admincars";
+                break;
         }
+        return page;
+    }
 
     private String updateCar(HttpServletRequest request) {
-        Car car = null;
+        Car car;
         try {
             car = getCar(request);
         } catch (DBException e) {
@@ -103,7 +104,7 @@ public class AdminChangesCommand implements Command {
         BigDecimal price = new BigDecimal(request.getParameter("price").replace(",", "."));
 
         try {
-            carService.addCar(model, licensePlate,qualityClass, price);
+            carService.addCar(model, licensePlate, qualityClass, price);
         } catch (DBException e) {
             log.error("Cannot add car", e);
             return "/WEB-INF/error.jsp";
@@ -168,27 +169,33 @@ public class AdminChangesCommand implements Command {
         return "redirect:/adminmanagers";
     }
 
-    private Car getCar (HttpServletRequest request) throws DBException {
-        int id = Integer.valueOf(request.getParameter("id"));
-        Car car = null;
+    private Car getCar(HttpServletRequest request) throws DBException {
+        int id = Integer.parseInt(request.getParameter("id"));
         try {
-            car = carService.getCarById(id);
+            Optional<Car> carOpt = carService.getCarById(id);
+            Car car = null;
+            if (carOpt.isPresent()) {
+                car = carOpt.get();
+            }
+            return car;
         } catch (DBException e) {
             log.error("Cannot get car by id", e);
             throw e;
         }
-        return car;
     }
 
-    private Account getAccount (HttpServletRequest request) throws DBException {
-        int id = Integer.valueOf(request.getParameter("id"));
-        Account account= null;
+    private Account getAccount(HttpServletRequest request) throws DBException {
+        int id = Integer.parseInt(request.getParameter("id"));
         try {
-            account = accountService.getAccountById(id);
+            Optional<Account> accOpt = accountService.getAccountById(id);
+            Account account = null;
+            if (accOpt.isPresent()) {
+                account = accOpt.get();
+            }
+            return account;
         } catch (DBException e) {
             log.error("Cannot get account by id", e);
             throw e;
         }
-        return account;
     }
 }

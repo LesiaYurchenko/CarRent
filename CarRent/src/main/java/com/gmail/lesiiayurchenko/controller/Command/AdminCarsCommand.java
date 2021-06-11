@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class AdminCarsCommand implements Command {
     private static final Logger log = Logger.getLogger(AdminCarsCommand.class);
-    CarService carService = new CarService();
+    CarService carService;
 
     public AdminCarsCommand(CarService carService) {
         this.carService = carService;
@@ -21,15 +21,15 @@ public class AdminCarsCommand implements Command {
     public String execute(HttpServletRequest request) {
         Optional<String> page = Optional.ofNullable(request.getParameter("currentPage"));
         int currentPage = Integer.parseInt(page.orElse("1"));
-        List<Car> cars = null;
+        Optional<List<Car>> cars;
         try {
             cars = carService.getAllCarsPagination(currentPage, 2);
         } catch (DBException e) {
             log.error("Cannot get cars for pagination", e);
             return "/WEB-INF/error.jsp";
         }
-        request.setAttribute("cars", cars);
-        int numberOfRows = 0;
+        cars.ifPresent(carList -> request.setAttribute("cars", carList));
+        int numberOfRows;
         try {
             numberOfRows = carService.getNumberOfRowsAll();
         } catch (DBException e) {

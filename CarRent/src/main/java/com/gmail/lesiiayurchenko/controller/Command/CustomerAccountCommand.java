@@ -6,6 +6,7 @@ import com.gmail.lesiiayurchenko.model.service.AccountService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 public class CustomerAccountCommand  implements Command {
     private static final Logger log = Logger.getLogger(CustomerAccountCommand.class);
@@ -18,14 +19,14 @@ public class CustomerAccountCommand  implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         int customerID = (Integer) request.getSession().getAttribute("id");
-        Account customer = null;
+        Optional<Account> customer;
         try {
             customer = accountService.getAccountById(customerID);
         } catch (DBException e) {
             log.error("Cannot get account by id", e);
             return "/WEB-INF/error.jsp";
         }
-        request.setAttribute("account", customer);
+        customer.ifPresent(acc -> request.setAttribute("account", acc));
         return "/WEB-INF/customer/customeraccount.jsp";
     }
 }

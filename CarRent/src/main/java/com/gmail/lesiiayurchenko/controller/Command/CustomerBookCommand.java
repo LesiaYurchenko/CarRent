@@ -55,7 +55,7 @@ public class CustomerBookCommand implements Command {
     }
 
     private String addCar(HttpServletRequest request) {
-        Car car = null;
+        Car car;
         try {
             car = getCar(request);
         } catch (DBException e) {
@@ -67,7 +67,7 @@ public class CustomerBookCommand implements Command {
     }
 
     private String deleteCar(HttpServletRequest request) {
-        Car car = null;
+        Car car;
         try {
             car = getCar(request);
         } catch (DBException e) {
@@ -86,7 +86,7 @@ public class CustomerBookCommand implements Command {
 
     private String order(HttpServletRequest request) {
         List<Car> cars = (ArrayList<Car>) request.getSession().getAttribute("cars");
-        Account customer = null;
+        Optional<Account> customer;
         try {
             customer = accountService.getAccountById((Integer)request.getSession().getAttribute("id"));
         } catch (DBException e) {
@@ -96,8 +96,12 @@ public class CustomerBookCommand implements Command {
         String passport = request.getParameter("passport");
         int leaseTerm = Integer.parseInt(request.getParameter("leaseTerm"));
         boolean driver = "yes".equals(request.getParameter("driver"));
+        Account acc = null;
+        if (customer.isPresent()){
+            acc = customer.get();
+        }
         try {
-            bookingService.createBooking(customer, cars, passport, leaseTerm,driver);
+            bookingService.createBooking(acc, cars, passport, leaseTerm,driver);
         } catch (DBException e) {
             log.error("Cannot create booking", e);
             return "/WEB-INF/error.jsp";
@@ -128,26 +132,32 @@ public class CustomerBookCommand implements Command {
     }
 
     private Car getCar (HttpServletRequest request) throws DBException {
-        int id = Integer.valueOf(request.getParameter("id"));
-        Car car = null;
+        int id = Integer.parseInt(request.getParameter("id"));
         try {
-            car = carService.getCarById(id);
+            Optional<Car> carOpt = carService.getCarById(id);
+            Car car = null;
+            if (carOpt.isPresent()) {
+                car = carOpt.get();
+            }
+            return car;
         } catch (DBException e) {
             log.error("Cannot get car by id", e);
             throw e;
         }
-        return car;
     }
 
     private Booking getBooking (HttpServletRequest request) throws DBException {
-        int id = Integer.valueOf(request.getParameter("id"));
-        Booking booking = null;
+        int id = Integer.parseInt(request.getParameter("id"));
         try {
-            booking = bookingService.getBookingById(id);
+           Optional<Booking> bookingOpt = bookingService.getBookingById(id);
+            Booking booking = null;
+            if (bookingOpt.isPresent()) {
+                booking = bookingOpt.get();
+            }
+            return booking;
         } catch (DBException e) {
             log.error("Cannot get booking by id", e);
             throw e;
         }
-        return booking;
     }
 }

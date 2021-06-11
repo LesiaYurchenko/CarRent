@@ -7,36 +7,37 @@ import com.gmail.lesiiayurchenko.model.entity.Car;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public class CarService {
 
     DaoFactory daoFactory = DaoFactory.getInstance();
 
-    public List<Car> getAllCars() throws DBException {
+    public Optional<List<Car>> getAllCars() throws DBException {
         try (CarDao dao = daoFactory.createCarDao()) {
-            return dao.findAll();
+            return Optional.ofNullable(dao.findAll());
         } catch (DBException e){
             throw e;
         }
     }
 
-    public List<Car> getAllAvailableCars() throws DBException {
+    public Optional<List<Car>> getAllAvailableCars() throws DBException {
         try (CarDao dao = daoFactory.createCarDao()) {
-            return dao.findAllAvailable();
+            return Optional.ofNullable(dao.findAllAvailable());
         } catch (DBException e){
             throw e;
         }
     }
 
-    public Car getCarById(int id) throws DBException {
+    public Optional <Car> getCarById(int id) throws DBException {
         try (CarDao dao = daoFactory.createCarDao()) {
-            return dao.findById(id);
+            return Optional.ofNullable(dao.findById(id));
         } catch (DBException e){
             throw e;
         }
     }
 
-    public void addCar(String model, String licensePlate, Car.QualityClass qualityClass, BigDecimal price) throws DBException {
+    public Optional <Car> addCar(String model, String licensePlate, Car.QualityClass qualityClass, BigDecimal price) throws DBException {
         Car car = new Car();
         car.setModel(model);
         car.setLicensePlate(licensePlate);
@@ -45,57 +46,62 @@ public class CarService {
         car.setAvailable(true);
         try (CarDao dao = daoFactory.createCarDao()) {
             dao.create(car);
+            return Optional.ofNullable(car);
         } catch (DBException e){
             throw e;
         }
     }
 
-    public void makeCarUnavailable(Car car) throws DBException {
+    public Optional <Car> makeCarUnavailable(Car car) throws DBException {
         car.setAvailable(false);
         try (CarDao dao = daoFactory.createCarDao()) {
             dao.update(car);
+            return Optional.ofNullable(car);
         } catch (DBException e){
             throw e;
         }
     }
 
-    public void updateCar(Car car) throws DBException {
+    public Optional <Car>  updateCar(Car car) throws DBException {
         try (CarDao dao = daoFactory.createCarDao()) {
             dao.update(car);
+            return Optional.ofNullable(car);
         } catch (DBException e){
             throw e;
         }
     }
 
-    public List<Car> getAvailableCarsPagination(int currentPage, int recordsPerPage) throws DBException {
+    public Optional<List<Car>> getAvailableCarsPagination(int currentPage, int recordsPerPage) throws DBException {
         try (CarDao dao = daoFactory.createCarDao()) {
-            return dao.findAllAvailablePagination(currentPage, recordsPerPage);
+            return Optional.ofNullable(dao.findAllAvailablePagination(currentPage, recordsPerPage));
         } catch (DBException e){
             throw e;
         }
     }
 
-    public List<Car> getAvailableCarsPaginationByPrice(int currentPage, int recordsPerPage) throws DBException {
+    public Optional<List<Car>> getAvailableCarsPaginationByPrice(int currentPage, int recordsPerPage) throws DBException {
         try (CarDao dao = daoFactory.createCarDao()) {
-            return dao.findAllAvailableByPricePagination(currentPage, recordsPerPage);
+            return Optional.ofNullable(dao.findAllAvailableByPricePagination(currentPage, recordsPerPage));
         } catch (DBException e){
             throw e;
         }
     }
 
-    public List<Car> getAvailableCarsPaginationByQualityClassByPrice(int currentPage, int recordsPerPage,
+    public Optional<List<Car>> getAvailableCarsPaginationByQualityClassByPrice(int currentPage, int recordsPerPage,
                                                                      Car.QualityClass qualityClass) throws DBException {
         try (CarDao dao = daoFactory.createCarDao()) {
-            return dao.findAllAvailableByQualityClassByPricePagination(currentPage, recordsPerPage, qualityClass);
+            return Optional.ofNullable(dao.findAllAvailableByQualityClassByPricePagination(currentPage,
+                    recordsPerPage, qualityClass));
         } catch (DBException e){
             throw e;
         }
     }
 
-    public List<Car> getAvailableCarsPaginationByQualityClass(int currentPage, int recordsPerPage,
+    public Optional<List<Car>> getAvailableCarsPaginationByQualityClass(int currentPage, int recordsPerPage,
                                                                      Car.QualityClass qualityClass) throws DBException {
         try (CarDao dao = daoFactory.createCarDao()) {
-            return dao.findAllAvailableByQualityClassPagination(currentPage, recordsPerPage, qualityClass);
+            return Optional.ofNullable(dao.findAllAvailableByQualityClassPagination(currentPage, recordsPerPage,
+                    qualityClass));
         } catch (DBException e){
             throw e;
         }
@@ -117,9 +123,9 @@ public class CarService {
         }
     }
 
-    public List<Car> getAllCarsPagination(int currentPage, int recordsPerPage) throws DBException {
+    public Optional<List<Car>> getAllCarsPagination(int currentPage, int recordsPerPage) throws DBException {
         try (CarDao dao = daoFactory.createCarDao()) {
-            return dao.findAllPagination(currentPage, recordsPerPage);
+            return Optional.ofNullable(dao.findAllPagination(currentPage, recordsPerPage));
         } catch (DBException e){
             throw e;
         }

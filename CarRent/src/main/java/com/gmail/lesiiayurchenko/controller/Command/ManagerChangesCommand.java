@@ -6,6 +6,7 @@ import com.gmail.lesiiayurchenko.model.service.BookingService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 public class ManagerChangesCommand implements Command {
     private static final Logger log = Logger.getLogger(ManagerChangesCommand.class);
@@ -98,14 +99,17 @@ public class ManagerChangesCommand implements Command {
     }
 
     private Booking getBooking (HttpServletRequest request) throws DBException {
-        int id = Integer.valueOf(request.getParameter("id"));
-        Booking booking = null;
+        int id = Integer.parseInt(request.getParameter("id"));
         try {
-            booking = bookingService.getBookingById(id);
+            Optional<Booking> bookingOpt = bookingService.getBookingById(id);
+            Booking booking = null;
+            if (bookingOpt.isPresent()) {
+                booking = bookingOpt.get();
+            }
+            return booking;
         } catch (DBException e) {
             log.error("Cannot get booking by id", e);
             throw e;
         }
-        return booking;
     }
 }

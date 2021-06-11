@@ -21,15 +21,15 @@ public class MainCommand implements Command {
     public String execute(HttpServletRequest request) {
         Optional<String> page = Optional.ofNullable(request.getParameter("currentPage"));
         int currentPage = Integer.parseInt(page.orElse("1"));
-        List<Car> cars = null;
+        Optional<List<Car>> cars;
         try {
             cars = carService.getAvailableCarsPagination(currentPage, 3);
         } catch (DBException e) {
             log.error("Cannot get available cars pagination", e);
             return "/WEB-INF/error.jsp";
         }
-        request.setAttribute("cars", cars);
-        int numberOfRows = 0;
+        cars.ifPresent(carList -> request.setAttribute("cars", carList));
+        int numberOfRows;
         try {
             numberOfRows = carService.getNumberOfRowsAvailable();
         } catch (DBException e) {

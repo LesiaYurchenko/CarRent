@@ -7,10 +7,11 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 public class ManagerReturnedBookingsCommand implements Command {
     private static final Logger log = Logger.getLogger(ManagerReturnedBookingsCommand.class);
-    BookingService bookingService = new BookingService();
+    BookingService bookingService;
 
     public ManagerReturnedBookingsCommand(BookingService bookingService) {
         this.bookingService = bookingService;
@@ -18,14 +19,14 @@ public class ManagerReturnedBookingsCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        List<Booking> returnedBookings = null;
+        Optional<List<Booking>> returnedBookings;
         try {
             returnedBookings = bookingService.getReturnedBookings();
         } catch (DBException e) {
             log.error("Cannot get returned bookings", e);
             return "/WEB-INF/error.jsp";
         }
-        request.setAttribute("returnedBookings" , returnedBookings);
+        returnedBookings.ifPresent(bookingList -> request.setAttribute("returnedBookings" , bookingList));
         return "/WEB-INF/manager/managerreturnedbookings.jsp";
     }
 }

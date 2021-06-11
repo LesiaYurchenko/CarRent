@@ -3,7 +3,6 @@ package com.gmail.lesiiayurchenko.controller.Command;
 import com.gmail.lesiiayurchenko.model.entity.Account;
 import com.gmail.lesiiayurchenko.model.entity.Car;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ class CommandUtility {
     }
 
     static boolean putCarIntoSession(HttpServletRequest request, Car car) {
-        HttpSession session = request.getSession();
         List<Car> cars = (ArrayList<Car>) request.getSession().getAttribute("cars");
         if(cars.stream().anyMatch(car::equals)){
             return false;
@@ -38,9 +36,8 @@ class CommandUtility {
     }
 
     static boolean removeCarFromSession(HttpServletRequest request, Car car) {
-        HttpSession session = request.getSession();
         List<Car> cars = (ArrayList<Car>) request.getSession().getAttribute("cars");
-        if(!cars.stream().anyMatch(car::equals)){
+        if(cars.stream().noneMatch(car::equals)){
             return false;
         }
         cars.remove(car);
@@ -70,7 +67,6 @@ class CommandUtility {
 
     static void deleteAccountFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        ServletContext context = request.getSession().getServletContext();
         session.removeAttribute("accountLogin");
         session.removeAttribute("role");
         session.removeAttribute("id");

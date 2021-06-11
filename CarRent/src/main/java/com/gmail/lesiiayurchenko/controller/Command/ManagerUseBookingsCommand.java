@@ -7,10 +7,11 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 public class ManagerUseBookingsCommand implements Command {
     private static final Logger log = Logger.getLogger(ManagerUseBookingsCommand.class);
-    BookingService bookingService = new BookingService();
+    BookingService bookingService;
 
     public ManagerUseBookingsCommand(BookingService bookingService) {
         this.bookingService = bookingService;
@@ -18,14 +19,14 @@ public class ManagerUseBookingsCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        List<Booking> useBookings = null;
+        Optional<List<Booking>> useBookings;
         try {
             useBookings = bookingService.getBookingsInUse();
         } catch (DBException e) {
             log.error("Cannot get bookings in use", e);
             return "/WEB-INF/error.jsp";
         }
-        request.setAttribute("useBookings" , useBookings);
+        useBookings.ifPresent(bookingList -> request.setAttribute("useBookings" , bookingList));
 
         return "/WEB-INF/manager/managerusebookings.jsp";
     }

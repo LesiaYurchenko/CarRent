@@ -9,12 +9,13 @@ import com.gmail.lesiiayurchenko.model.entity.Car;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BookingService {
 
     DaoFactory daoFactory = DaoFactory.getInstance();
 
-    public void createBooking(Account account, List<Car> cars, String passport, int leaseTerm, boolean driver) throws DBException {
+    public Optional<Booking> createBooking(Account account, List<Car> cars, String passport, int leaseTerm, boolean driver) throws DBException {
         Booking booking = new Booking();
         booking.setAccount(account);
         booking.setCars(cars);
@@ -26,109 +27,116 @@ public class BookingService {
         booking.setDamagePaid(false);
         try (BookingDao dao = daoFactory.createBookingDao()) {
             dao.create(booking);
+            return Optional.ofNullable(booking);
         } catch (DBException e) {
             throw e;
         }
     }
 
-    public Booking getBookingById(int id) throws DBException {
+    public Optional<Booking> getBookingById(int id) throws DBException {
         try (BookingDao dao = daoFactory.createBookingDao()) {
-            return dao.findById(id);
+            return Optional.ofNullable(dao.findById(id));
         } catch (DBException e) {
             throw e;
         }
     }
 
-    public List<Booking> getNewBookings() throws DBException {
+    public Optional<List<Booking>> getNewBookings() throws DBException {
         List<Booking> bookings = new ArrayList<>();
         try (BookingDao dao = daoFactory.createBookingDao()) {
             bookings.addAll(dao.findAllNew());
             bookings.addAll(dao.findAllApproved());
             bookings.addAll(dao.findAllRejected());
-            return bookings;
+            return Optional.ofNullable(bookings);
         } catch (DBException e) {
             throw e;
         }
     }
 
-    public List<Booking> getBookingsInUse() throws DBException {
+    public Optional<List<Booking>> getBookingsInUse() throws DBException {
         try (BookingDao dao = daoFactory.createBookingDao()) {
-            return dao.findAllPaid();
+            return Optional.ofNullable(dao.findAllPaid());
         } catch (DBException e) {
             throw e;
         }
     }
 
-    public List<Booking> getReturnedBookings() throws DBException {
+    public Optional<List<Booking>>  getReturnedBookings() throws DBException {
         try (BookingDao dao = daoFactory.createBookingDao()) {
-            return dao.findAllReturned();
+            return Optional.ofNullable(dao.findAllReturned());
         } catch (DBException e) {
             throw e;
         }
     }
 
-    public List<Booking> getBookingsByCustomer(int customerID) throws DBException {
+    public Optional<List<Booking>> getBookingsByCustomer(int customerID) throws DBException {
         try (BookingDao dao = daoFactory.createBookingDao()) {
-            return dao.findAllByCustomer(customerID);
+            return Optional.ofNullable(dao.findAllByCustomer(customerID));
         } catch (DBException e) {
             throw e;
         }
     }
 
-    public void approveBooking(Booking booking) throws DBException {
+    public Optional<Booking> approveBooking(Booking booking) throws DBException {
         booking.setStatus(Booking.Status.APPROVED);
         try (BookingDao dao = daoFactory.createBookingDao()) {
             dao.update(booking);
+            return Optional.ofNullable(booking);
         } catch (DBException e) {
             throw e;
         }
     }
 
-    public void rejectBooking(Booking booking) throws DBException {
+    public Optional<Booking> rejectBooking(Booking booking) throws DBException {
         booking.setStatus(Booking.Status.REJECTED);
         try (BookingDao dao = daoFactory.createBookingDao()) {
             dao.update(booking);
+            return Optional.ofNullable(booking);
         } catch (DBException e) {
             throw e;
         }
     }
 
-    public void payBooking(Booking booking) throws DBException {
+    public Optional<Booking> payBooking(Booking booking) throws DBException {
         booking.setStatus(Booking.Status.PAID);
         try (BookingDao dao = daoFactory.createBookingDao()) {
             dao.update(booking);
+            return Optional.ofNullable(booking);
         } catch (DBException e) {
             throw e;
         }
     }
 
-    public void registerDamage(Booking booking) throws DBException {
+    public Optional<Booking> registerDamage(Booking booking) throws DBException {
         booking.setDamage(true);
         try (BookingDao dao = daoFactory.createBookingDao()) {
             dao.update(booking);
+            return Optional.ofNullable(booking);
         } catch (DBException e) {
             throw e;
         }
     }
 
-    public void payDamage(Booking booking) throws DBException {
+    public Optional<Booking> payDamage(Booking booking) throws DBException {
         if (booking.isDamage()) {
             booking.setDamagePaid(true);
             booking.setStatus(Booking.Status.RETURNED);
         }
         try (BookingDao dao = daoFactory.createBookingDao()) {
             dao.update(booking);
+            return Optional.ofNullable(booking);
         } catch (DBException e) {
             throw e;
         }
     }
 
-    public void returnBooking(Booking booking) throws DBException {
+    public Optional<Booking> returnBooking(Booking booking) throws DBException {
         if (!booking.isDamage() || (booking.isDamage() && booking.isDamagePaid())) {
             booking.setStatus(Booking.Status.RETURNED);
         }
         try (BookingDao dao = daoFactory.createBookingDao()) {
             dao.update(booking);
+            return Optional.ofNullable(booking);
         } catch (DBException e) {
             throw e;
         }

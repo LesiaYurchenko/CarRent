@@ -27,23 +27,23 @@ public class CustomerBasisCommand implements Command {
         Optional<String> page = Optional.ofNullable(request.getParameter("currentPage"));
         int currentPage = Integer.parseInt(page.orElse("1"));
 
-        List<Car> cars = null;
-        int numberOfRows = 0;
+        List<Car> cars;
+        int numberOfRows;
         try {
             switch (filter) {
                 case "qualityClass":
                     if (sorter.equals("price")) {
-                        cars = getCarsByQualityClassByPrice(request, currentPage, qualityClass);
+                        cars = getCarsByQualityClassByPrice(currentPage, qualityClass);
                     } else {
-                        cars = getCarsByQualityClass(request, currentPage, qualityClass);
+                        cars = getCarsByQualityClass(currentPage, qualityClass);
                     }
                     numberOfRows = getNumberOfRowsByQualityClass(qualityClass);
                     break;
                 default:
                     if (sorter.equals("price")) {
-                        cars = getCarsByPrice(request, currentPage);
+                        cars = getCarsByPrice(currentPage);
                     } else {
-                        cars = getCars(request, currentPage);
+                        cars = getCars(currentPage);
                     }
                     numberOfRows = getNumberOfRows();
                     break;
@@ -83,52 +83,66 @@ public class CustomerBasisCommand implements Command {
         return sorter;
     }
 
-    private List<Car> getCarsByQualityClassByPrice(HttpServletRequest request, int currentPage, Car.QualityClass qualityClass) throws DBException {
-        List<Car> cars = null;
+    private List<Car> getCarsByQualityClassByPrice(int currentPage, Car.QualityClass qualityClass) throws DBException {
         try {
-            cars = carService.getAvailableCarsPaginationByQualityClassByPrice(currentPage, 3, qualityClass);
+            Optional<List<Car>> carsOpt = carService.getAvailableCarsPaginationByQualityClassByPrice(currentPage,
+                    3, qualityClass);
+            List<Car> cars = null;
+            if (carsOpt.isPresent()) {
+                cars = carsOpt.get();
+            }
+            return cars;
         } catch (DBException e) {
             log.error("Cannot get available cars pagination by quality class by price", e);
             throw e;
         }
-        return cars;
     }
 
-    private List<Car> getCarsByQualityClass(HttpServletRequest request, int currentPage, Car.QualityClass qualityClass) throws DBException {
-        List<Car> cars = null;
+    private List<Car> getCarsByQualityClass(int currentPage, Car.QualityClass qualityClass) throws DBException {
         try {
-            cars = carService.getAvailableCarsPaginationByQualityClass(currentPage, 3, qualityClass);
+            Optional<List<Car>> carsOpt = carService.getAvailableCarsPaginationByQualityClass(currentPage,
+                    3, qualityClass);
+            List<Car> cars = null;
+            if (carsOpt.isPresent()) {
+                cars = carsOpt.get();
+            }
+            return cars;
         } catch (DBException e) {
             log.error("Cannot get available cars pagination by quality class", e);
             throw e;
         }
-        return cars;
     }
 
-    private List<Car> getCarsByPrice(HttpServletRequest request, int currentPage) throws DBException {
-        List<Car> cars = null;
+    private List<Car> getCarsByPrice(int currentPage) throws DBException {
         try {
-            cars = carService.getAvailableCarsPaginationByPrice(currentPage, 3);
+            Optional<List<Car>> carsOpt = carService.getAvailableCarsPaginationByPrice(currentPage, 3);
+            List<Car> cars = null;
+            if (carsOpt.isPresent()) {
+                cars = carsOpt.get();
+            }
+            return cars;
         } catch (DBException e) {
             log.error("Cannot get available cars pagination by price", e);
             throw e;
         }
-        return cars;
     }
 
-    private List<Car> getCars(HttpServletRequest request, int currentPage) throws DBException {
-        List<Car> cars = null;
+    private List<Car> getCars(int currentPage) throws DBException {
         try {
-            cars = carService.getAvailableCarsPagination(currentPage, 3);
+            Optional<List<Car>> carsOpt = carService.getAvailableCarsPagination(currentPage, 3);
+            List<Car> cars = null;
+            if (carsOpt.isPresent()) {
+                cars = carsOpt.get();
+            }
+            return cars;
         } catch (DBException e) {
             log.error("Cannot get available cars pagination", e);
             throw e;
         }
-        return cars;
     }
 
     private int getNumberOfRowsByQualityClass(Car.QualityClass qualityClass) throws DBException {
-        int numberOfRows = 0;
+        int numberOfRows;
         try {
             numberOfRows = carService.getNumberOfRowsAvailableByQualityClass(qualityClass);
         } catch (DBException e) {
@@ -139,7 +153,7 @@ public class CustomerBasisCommand implements Command {
     }
 
     private int getNumberOfRows() throws DBException {
-        int numberOfRows = 0;
+        int numberOfRows;
         try {
             numberOfRows = carService.getNumberOfRowsAvailable();
         } catch (DBException e) {

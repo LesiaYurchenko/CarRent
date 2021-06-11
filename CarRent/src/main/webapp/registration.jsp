@@ -99,10 +99,10 @@
            placeholder="<fmt:message key="label.password" />"><br/>
     <label for="3"><fmt:message key="label.email"/></label>
     <input type="email" id="3" name="email" required
-           title="<fmt:message key="label.WrongEmail"/>"
-           oninvalid="this.setCustomValidity('<fmt:message key="label.WrongEmail"/>')"
-           oninput="setCustomValidity('<fmt:message key="label.WrongEmail"/>')"
-           placeholder="<fmt:message key="label.email" />"><br/>
+                   title="<fmt:message key="label.WrongEmail"/>"
+                   oninvalid="this.setCustomValidity('<fmt:message key="label.WrongEmail"/>')"
+                   oninput="setCustomValidity('<fmt:message key="label.WrongEmail"/>')"
+                   placeholder="<fmt:message key="label.email" />"><br/>
     <br>
     <input class="button" type="submit" name="register" value="<fmt:message key="label.Registration" />"><br/>
 </form>

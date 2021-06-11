@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class AdminCustomersCommand implements Command {
     private static final Logger log = Logger.getLogger(AdminCustomersCommand.class);
-    AccountService accountService = new AccountService();
+    AccountService accountService;
 
     public AdminCustomersCommand(AccountService accountService) {
         this.accountService = accountService;
@@ -21,15 +21,15 @@ public class AdminCustomersCommand implements Command {
     public String execute(HttpServletRequest request) {
         Optional<String> page = Optional.ofNullable(request.getParameter("currentPage"));
         int currentPage = Integer.parseInt(page.orElse("1"));
-        List<Account> customers = null;
+        Optional<List<Account>> customers;
         try {
             customers = accountService.getCustomers(currentPage, 3);
         } catch (DBException e) {
             log.error("Cannot get customers", e);
             return "/WEB-INF/error.jsp";
         }
-        request.setAttribute("customers" , customers);
-        int numberOfRows = 0;
+        customers.ifPresent(customerList -> request.setAttribute("customers",  customerList));
+        int numberOfRows;
         try {
             numberOfRows = accountService.getNumberOfRowsCustomers();
         } catch (DBException e) {

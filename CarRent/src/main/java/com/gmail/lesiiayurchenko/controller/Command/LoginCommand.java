@@ -1,8 +1,6 @@
 package com.gmail.lesiiayurchenko.controller.Command;
 
-import com.gmail.lesiiayurchenko.model.dao.DBException;
 import com.gmail.lesiiayurchenko.model.entity.Account;
-import com.gmail.lesiiayurchenko.model.service.AccountService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +13,7 @@ public class LoginCommand implements Command {
     public String execute(HttpServletRequest request) {
         log.debug("Command starts");
         String login = request.getParameter("login");
-        log.trace("Request parameter: loging --> " + login);
+        log.trace("Request parameter: login --> " + login);
         Account.Role role = (Account.Role)(request.getAttribute("role"));
         log.trace("Request parameter: role --> " + role);
         int id = (Integer)(request.getAttribute("id"));

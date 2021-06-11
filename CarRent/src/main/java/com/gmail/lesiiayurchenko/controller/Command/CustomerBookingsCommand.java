@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CustomerBookingsCommand implements Command {
@@ -20,7 +21,7 @@ public class CustomerBookingsCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         int customerID = (Integer) request.getSession().getAttribute("id");
-        List<Booking> bookings = null;
+        Optional<List<Booking>> bookings;
         try {
             bookings = bookingService.getBookingsByCustomer(customerID);
         } catch (DBException e) {
@@ -28,13 +29,13 @@ public class CustomerBookingsCommand implements Command {
             return "/WEB-INF/error.jsp";
         }
 
-        request.setAttribute("payForNew" , bookings.stream().filter(b -> Booking.Status.APPROVED.equals(b.getStatus()))
-                .collect(Collectors.toList()));
+        bookings.ifPresent(bookingList -> request.setAttribute("payForNew" , bookingList.stream().filter(b ->
+                Booking.Status.APPROVED.equals(b.getStatus())).collect(Collectors.toList())));
 
-        request.setAttribute("payForDamaged" , bookings.stream().filter(b -> b.isDamage()&& !b.isDamagePaid())
-                .collect(Collectors.toList()));
+        bookings.ifPresent(bookingList -> request.setAttribute("payForDamaged" , bookingList.stream().filter(b ->
+                b.isDamage()&& !b.isDamagePaid()).collect(Collectors.toList())));
 
-        request.setAttribute("myBookings" , bookings);
+        bookings.ifPresent(bookingList ->request.setAttribute("myBookings" , bookingList));
 
         return "/WEB-INF/customer/customerbookings.jsp";
     }

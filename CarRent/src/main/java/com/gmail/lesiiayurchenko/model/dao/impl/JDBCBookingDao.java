@@ -26,7 +26,6 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public void create(Booking entity) throws DBException{
-        PreparedStatement pstmt = null;
         try {
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
@@ -40,7 +39,6 @@ public class JDBCBookingDao implements BookingDao {
             rollback(connection);
             throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
-            close(pstmt);
             setDefaultCommitParameters(connection);
         }
     }
@@ -177,7 +175,7 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public List<Booking> findAllRejected() throws DBException{
-        Map<Integer, Booking> bookings;
+        Map<Integer, Booking> bookings = new HashMap<>();
 
         String query = SQLConstants.FIND_ALL_REJECTED_BOOKINGS;
 
@@ -198,7 +196,7 @@ public class JDBCBookingDao implements BookingDao {
     }
 
     public List<Booking> findAllPaid() throws DBException{
-        Map<Integer, Booking> bookings;
+        Map<Integer, Booking> bookings = new HashMap<>();
 
         String query = SQLConstants.FIND_ALL_PAID_BOOKINGS;
 
@@ -219,7 +217,7 @@ public class JDBCBookingDao implements BookingDao {
     }
 
     public List<Booking> findAllReturned() throws DBException{
-        Map<Integer, Booking> bookings;
+        Map<Integer, Booking> bookings = new HashMap<>();
 
         String query = SQLConstants.FIND_ALL_RETURNED_BOOKINGS;
 
@@ -241,7 +239,7 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public List<Booking> findAllByCustomer(int customerID) throws DBException{
-        Map<Integer, Booking> bookings;
+        Map<Integer, Booking> bookings = new HashMap<>();
 
         String query = SQLConstants.FIND_ALL_BOOKINGS_BY_CUSTOMER;
 
@@ -270,7 +268,7 @@ public class JDBCBookingDao implements BookingDao {
         CarMapper carMapper = new CarMapper();
         AccountMapper accountMapper = new AccountMapper();
 
-        Booking booking;
+        Booking booking = null;
 
         try {
             while (rs.next()) {
@@ -292,7 +290,6 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public void update(Booking entity) throws DBException{
-        PreparedStatement pstmt = null;
         try {
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
@@ -307,7 +304,6 @@ public class JDBCBookingDao implements BookingDao {
             throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             setDefaultCommitParameters(connection);
-            close(pstmt);
         }
     }
 
@@ -347,7 +343,6 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public void delete(int id) throws DBException {
-        PreparedStatement pstmt = null;
         try {
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
@@ -359,7 +354,6 @@ public class JDBCBookingDao implements BookingDao {
             throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             setDefaultCommitParameters(connection);
-            close(pstmt);
         }
     }
 

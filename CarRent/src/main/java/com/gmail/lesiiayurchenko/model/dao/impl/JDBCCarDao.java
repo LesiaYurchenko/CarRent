@@ -2,6 +2,7 @@ package com.gmail.lesiiayurchenko.model.dao.impl;
 
 import com.gmail.lesiiayurchenko.model.dao.CarDao;
 import com.gmail.lesiiayurchenko.model.dao.DBException;
+import com.gmail.lesiiayurchenko.model.dao.SQLConstants;
 import com.gmail.lesiiayurchenko.model.dao.mapper.CarMapper;
 import com.gmail.lesiiayurchenko.model.entity.Car;
 
@@ -21,8 +22,7 @@ public class JDBCCarDao implements CarDao {
     public void create(Car entity) throws DBException {
         PreparedStatement pstmt = null;
         try {
-            pstmt = connection.prepareStatement("insert into car (id, model, license_plate, quality_class_id, " +
-                    "price, available) values (?,?,?,?,?,?)");
+            pstmt = connection.prepareStatement(SQLConstants.CREATE_CAR);
             int k = 1;
             pstmt.setInt(k++, entity.getId());
             pstmt.setString(k++, entity.getModel());
@@ -32,7 +32,7 @@ public class JDBCCarDao implements CarDao {
             pstmt.setInt(k++, entity.isAvailable()?1:0);
             pstmt.executeUpdate();
         } catch (SQLException e){
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -42,8 +42,7 @@ public class JDBCCarDao implements CarDao {
     public Car findById(int id) throws DBException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String query = "select id as id_car, model, license_plate, quality_class_id, price, available " +
-                "from car where id = ?";
+        String query = SQLConstants.FIND_CAR_BY_ID;
         try {
             pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, id);
@@ -55,7 +54,7 @@ public class JDBCCarDao implements CarDao {
             }
             return car;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -66,7 +65,7 @@ public class JDBCCarDao implements CarDao {
     public List<Car> findAll() throws DBException {
         List< Car> cars = new ArrayList<>();
 
-        String query = "select id as id_car, model, license_plate, quality_class_id, price, available from car";
+        String query = SQLConstants.FIND_ALL_CARS;
         try (Statement st = connection.createStatement();
              ResultSet rs = st.executeQuery(query)) {
             CarMapper carMapper = new CarMapper();
@@ -76,7 +75,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         }
     }
 
@@ -86,8 +85,7 @@ public class JDBCCarDao implements CarDao {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String query = "select id as id_car, model, license_plate, quality_class_id, price, available " +
-                "from car where available = ?";
+        String query = SQLConstants.FIND_ALL_AVAILABLE_CARS;
         try {
             pstmt = connection.prepareStatement(query);
             pstmt.setBoolean(1, true);
@@ -100,7 +98,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -113,8 +111,7 @@ public class JDBCCarDao implements CarDao {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String query = "select id as id_car, model, license_plate, quality_class_id, price, available " +
-                "from car LIMIT ?, ?";
+        String query = SQLConstants.FIND_ALL_CARS_PAGINATION;
         try {
             pstmt = connection.prepareStatement(query);
             int k =1;
@@ -129,7 +126,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -142,8 +139,7 @@ public class JDBCCarDao implements CarDao {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String query = "select id as id_car, model, license_plate, quality_class_id, price, available " +
-                "from car where available = ? LIMIT ?, ?";
+        String query = SQLConstants.FIND_ALL_AVAILABLE_CARS_PAGINATION;
         try {
             pstmt = connection.prepareStatement(query);
             int k =1;
@@ -159,7 +155,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -173,8 +169,7 @@ public class JDBCCarDao implements CarDao {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String query = "select id as id_car, model, license_plate, quality_class_id, price, available " +
-                "from car where available = ? and quality_class_id = ? order by price LIMIT ?, ?";
+        String query = SQLConstants.FIND_ALL_AVAILABLE_CARS_BY_QUALITY_BY_PRICE_PAGINATION;
         try {
             pstmt = connection.prepareStatement(query);
             int k =1;
@@ -191,7 +186,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -205,8 +200,7 @@ public class JDBCCarDao implements CarDao {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String query = "select id as id_car, model, license_plate, quality_class_id, price, available " +
-                "from car where available = ? and quality_class_id = ? LIMIT ?, ?";
+        String query = SQLConstants.FIND_ALL_AVAILABLE_CARS_BY_QUALITY_PAGINATION;
         try {
             pstmt = connection.prepareStatement(query);
             int k =1;
@@ -223,7 +217,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -236,8 +230,7 @@ public class JDBCCarDao implements CarDao {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String query = "select id as id_car, model, license_plate, quality_class_id, price, available " +
-                "from car where available = ? order by price LIMIT ?, ?";
+        String query = SQLConstants.FIND_ALL_AVAILABLE_CARS_BY_PRICE_PAGINATION;
         try {
             pstmt = connection.prepareStatement(query);
             int k =1;
@@ -253,7 +246,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -262,16 +255,16 @@ public class JDBCCarDao implements CarDao {
 
     @Override
     public int getNumberOfRowsAll() throws DBException {
-        String query = "select count(id) as number from car";
+        String query = SQLConstants.GET_NUMBER_OF_ROWS_ALL_CARS;
         int numberOfRows = 0;
         try (Statement st = connection.createStatement();
              ResultSet rs = st.executeQuery(query)) {
             if (rs.next()) {
-                numberOfRows = rs.getInt("number");
+                numberOfRows = rs.getInt(SQLConstants.NUMBER);
                             }
             return numberOfRows;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         }
     }
 
@@ -280,17 +273,17 @@ public class JDBCCarDao implements CarDao {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         int numberOfRows = 0;
-        String query = "select count(id) as number from car where available = ?";
+        String query = SQLConstants.GET_NUMBER_OF_ROWS_AVAILABLE_CARS;
         try {
             pstmt = connection.prepareStatement(query);
             pstmt.setBoolean(1, true);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                numberOfRows = rs.getInt("number");
+                numberOfRows = rs.getInt(SQLConstants.NUMBER);
             }
             return numberOfRows;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -302,7 +295,7 @@ public class JDBCCarDao implements CarDao {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         int numberOfRows = 0;
-        String query = "select count(id) as number from car where available = ? and quality_class_id = ?";
+        String query = SQLConstants.GET_NUMBER_OF_ROWS_AVAILABLE_CARS_BY_QUALITY;
         try {
             pstmt = connection.prepareStatement(query);
             int k =1;
@@ -310,11 +303,11 @@ public class JDBCCarDao implements CarDao {
             pstmt.setInt(k++, qualityClass.ordinal()+1);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                numberOfRows = rs.getInt("number");
+                numberOfRows = rs.getInt(SQLConstants.NUMBER);
             }
             return numberOfRows;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -325,9 +318,7 @@ public class JDBCCarDao implements CarDao {
     public void update(Car entity) throws DBException {
         PreparedStatement pstmt = null;
         try {
-            pstmt = connection.prepareStatement("UPDATE car SET model = ?, license_plate = ?, " +
-                    "quality_class_id = ?, price = ?, available = ?" +
-                    "	WHERE id = ?");
+            pstmt = connection.prepareStatement(SQLConstants.UPDATE_CAR);
 
             int k = 1;
             pstmt.setString(k++, entity.getModel());
@@ -338,7 +329,7 @@ public class JDBCCarDao implements CarDao {
             pstmt.setInt(k, entity.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -348,11 +339,11 @@ public class JDBCCarDao implements CarDao {
     public void delete(int id) throws DBException {
         PreparedStatement pstmt = null;
         try {
-            pstmt = connection.prepareStatement("delete from car where id = ?");
+            pstmt = connection.prepareStatement(SQLConstants.DELETE_CAR);
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(pstmt);
         }

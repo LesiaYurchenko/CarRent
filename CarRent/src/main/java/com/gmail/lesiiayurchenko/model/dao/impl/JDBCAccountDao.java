@@ -2,6 +2,7 @@ package com.gmail.lesiiayurchenko.model.dao.impl;
 
 import com.gmail.lesiiayurchenko.model.dao.AccountDao;
 import com.gmail.lesiiayurchenko.model.dao.DBException;
+import com.gmail.lesiiayurchenko.model.dao.SQLConstants;
 import com.gmail.lesiiayurchenko.model.dao.mapper.AccountMapper;
 import com.gmail.lesiiayurchenko.model.entity.Account;
 
@@ -21,8 +22,7 @@ public class JDBCAccountDao implements AccountDao {
     public void create(Account entity) throws DBException {
         PreparedStatement pstmt = null;
         try {
-            pstmt = connection.prepareStatement("insert into account (id, login, password, email, " +
-                    "role_id, blocked) values (?,?,?,?,?,?)");
+            pstmt = connection.prepareStatement(SQLConstants.CREATE_ACCOUNT);
             int k = 1;
             pstmt.setInt(k++, entity.getId());
             pstmt.setString(k++, entity.getLogin());
@@ -32,7 +32,7 @@ public class JDBCAccountDao implements AccountDao {
             pstmt.setInt(k++, entity.isBlocked()?1:0);
             pstmt.executeUpdate();
         } catch (SQLException e){
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -42,7 +42,7 @@ public class JDBCAccountDao implements AccountDao {
     public Account findById(int id) throws DBException{
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String query = "select id as id_account, login, password, email, role_id, blocked from account where id = ?";
+        String query = SQLConstants.FIND_ACCOUNT_BY_ID;
         try {
             pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, id);
@@ -54,7 +54,7 @@ public class JDBCAccountDao implements AccountDao {
             }
             return account;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -65,7 +65,7 @@ public class JDBCAccountDao implements AccountDao {
     public Account findByLogin(String login) throws DBException{
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String query = "select id as id_account, login, password, email, role_id, blocked from account where login = ?";
+        String query = SQLConstants.FIND_ACCOUNT_BY_LOGIN;
         try {
             pstmt = connection.prepareStatement(query);
             pstmt.setString(1, login);
@@ -77,7 +77,7 @@ public class JDBCAccountDao implements AccountDao {
             }
             return account;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -88,7 +88,7 @@ public class JDBCAccountDao implements AccountDao {
     public List<Account> findAll() throws DBException{
         List <Account> accounts = new ArrayList<>();
 
-        String query = "select id as id_account, login, password, email, role_id, blocked from account";
+        String query = SQLConstants.FIND_ALL_ACCOUNTS;
         try (Statement st = connection.createStatement();
              ResultSet rs = st.executeQuery(query)) {
 
@@ -99,7 +99,7 @@ public class JDBCAccountDao implements AccountDao {
             }
             return accounts;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         }
     }
 
@@ -109,8 +109,7 @@ public class JDBCAccountDao implements AccountDao {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String query = "select id as id_account, login, password, email, role_id, blocked from account where role_id = ? " +
-                "LIMIT ?, ?";
+        String query = SQLConstants.FIND_ALL_MANAGERS;
         try {
             pstmt = connection.prepareStatement(query);
             int k =1;
@@ -125,7 +124,7 @@ public class JDBCAccountDao implements AccountDao {
             }
             return accounts;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         }finally {
             close(rs);
             close(pstmt);
@@ -138,8 +137,7 @@ public class JDBCAccountDao implements AccountDao {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String query = "select id as id_account, login, password, email, role_id, blocked from account " +
-                "where role_id = ? LIMIT ?, ?";
+        String query = SQLConstants.FIND_ALL_CUSTOMERS;
         try {
             pstmt = connection.prepareStatement(query);
             int k =1;
@@ -154,7 +152,7 @@ public class JDBCAccountDao implements AccountDao {
             }
             return accounts;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         }finally {
             close(rs);
             close(pstmt);
@@ -166,17 +164,17 @@ public class JDBCAccountDao implements AccountDao {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         int numberOfRows = 0;
-        String query = "select count(id) as number from account where role_id = ?";
+        String query = SQLConstants.GET_NUMBER_OF_ROWS_CUSTOMERS;
         try {
             pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, Account.Role.CUSTOMER.ordinal() + 1);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                numberOfRows = rs.getInt("number");
+                numberOfRows = rs.getInt(SQLConstants.NUMBER);
             }
             return numberOfRows;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         }finally {
             close(rs);
             close(pstmt);
@@ -189,17 +187,17 @@ public class JDBCAccountDao implements AccountDao {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         int numberOfRows = 0;
-        String query = "select count(id) as number from account where role_id = ?";
+        String query = SQLConstants.GET_NUMBER_OF_ROWS_MANAGERS;
         try {
             pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, Account.Role.MANAGER.ordinal()+1);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                numberOfRows = rs.getInt("number");
+                numberOfRows = rs.getInt(SQLConstants.NUMBER);
             }
             return numberOfRows;
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         }finally {
             close(rs);
             close(pstmt);
@@ -210,9 +208,7 @@ public class JDBCAccountDao implements AccountDao {
     public void update(Account entity) throws DBException {
         PreparedStatement pstmt = null;
         try {
-            pstmt = connection.prepareStatement("UPDATE account SET login = ?, password = ?, " +
-                    "email = ?, role_id = ?, blocked = ?" +
-                    "	WHERE id = ?");
+            pstmt = connection.prepareStatement(SQLConstants.UPDATE_ACCOUNT);
             int k = 1;
             pstmt.setString(k++, entity.getLogin());
             pstmt.setString(k++, entity.getPassword());
@@ -222,7 +218,7 @@ public class JDBCAccountDao implements AccountDao {
             pstmt.setInt(k, entity.getId());
             pstmt.executeUpdate();
         } catch (SQLException e){
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -232,11 +228,11 @@ public class JDBCAccountDao implements AccountDao {
     public void delete(int id) throws DBException{
         PreparedStatement pstmt = null;
         try {
-            pstmt = connection.prepareStatement("delete from account where id = ?");
+            pstmt = connection.prepareStatement(SQLConstants.DELETE_ACCOUNT);
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -247,7 +243,7 @@ public class JDBCAccountDao implements AccountDao {
         try {
             connection.close();
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         }
     }
 }

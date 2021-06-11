@@ -2,6 +2,8 @@ package com.gmail.lesiiayurchenko.model.dao;
 
 public class DBException extends Exception {
 
+    public static final String DBEXCEPTION = "DB exception";
+
     public DBException() {
         super();
     }

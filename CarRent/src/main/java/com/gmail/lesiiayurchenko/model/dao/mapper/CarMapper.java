@@ -1,5 +1,6 @@
 package com.gmail.lesiiayurchenko.model.dao.mapper;
 
+import com.gmail.lesiiayurchenko.model.dao.SQLConstants;
 import com.gmail.lesiiayurchenko.model.entity.Car;
 
 import java.sql.ResultSet;
@@ -11,12 +12,12 @@ public class CarMapper implements ObjectMapper<Car> {
     @Override
     public Car extractFromResultSet(ResultSet rs) throws SQLException {
         Car car = new Car();
-        car.setId(rs.getInt("id_car"));
-        car.setModel(rs.getString("model"));
-        car.setLicensePlate(rs.getString("license_plate"));
-        car.setQualityClass(Car.QualityClass.values()[rs.getInt("quality_class_id")-1]);
-        car.setPrice(rs.getBigDecimal("price"));
-        car.setAvailable(rs.getInt("available") != 0);
+        car.setId(rs.getInt(SQLConstants.CAR_ID));
+        car.setModel(rs.getString(SQLConstants.MODEL));
+        car.setLicensePlate(rs.getString(SQLConstants.LICENSE_PLATE));
+        car.setQualityClass(Car.QualityClass.values()[rs.getInt(SQLConstants.QUALITY_CLASS_ID)-1]);
+        car.setPrice(rs.getBigDecimal(SQLConstants.PRICE));
+        car.setAvailable(rs.getInt(SQLConstants.AVAILABLE) != 0);
         return car;
     }
 

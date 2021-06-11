@@ -2,6 +2,7 @@ package com.gmail.lesiiayurchenko.model.dao.impl;
 
 import com.gmail.lesiiayurchenko.model.dao.BookingDao;
 import com.gmail.lesiiayurchenko.model.dao.DBException;
+import com.gmail.lesiiayurchenko.model.dao.SQLConstants;
 import com.gmail.lesiiayurchenko.model.dao.mapper.AccountMapper;
 import com.gmail.lesiiayurchenko.model.dao.mapper.BookingMapper;
 import com.gmail.lesiiayurchenko.model.dao.mapper.CarMapper;
@@ -37,7 +38,7 @@ public class JDBCBookingDao implements BookingDao {
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(pstmt);
             setDefaultCommitParameters(connection);
@@ -47,8 +48,7 @@ public class JDBCBookingDao implements BookingDao {
     private void addBooking(Booking booking) throws SQLException {
         PreparedStatement pstmt = null;
         try {
-            pstmt = connection.prepareStatement("insert into booking (id, account_id, passport, lease_term, " +
-                    "driver, status_id, damage, damage_paid) values (?,?,?,?,?,?,?,?)");
+            pstmt = connection.prepareStatement(SQLConstants.ADD_BOOKING);
             int k = 1;
             pstmt.setInt(k++, booking.getId());
             pstmt.setInt(k++, booking.getAccount().getId());
@@ -69,9 +69,9 @@ public class JDBCBookingDao implements BookingDao {
     private int getBookingId(Booking booking) throws SQLException {
         int id=0;
         try (Statement st = connection.createStatement();
-             ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID() as id")) {
+             ResultSet rs = st.executeQuery(SQLConstants.GET_LAST_INSERT_BOOKING_ID)) {
             while (rs.next()) {
-                id = rs.getInt("id");
+                id = rs.getInt(SQLConstants.ID);
             }
             return id;
         } catch (SQLException e) {
@@ -82,7 +82,7 @@ public class JDBCBookingDao implements BookingDao {
     private void addBookingCars(Booking booking, Car car) throws SQLException {
         PreparedStatement pstmt = null;
         try {
-            pstmt = connection.prepareStatement("insert into booking_has_car (booking_id, car_id) values (?,?)");
+            pstmt = connection.prepareStatement(SQLConstants.ADD_BOOKING_HAS_CAR);
             int k = 1;
             pstmt.setInt(k++, booking.getId());
             pstmt.setInt(k, car.getId());
@@ -98,15 +98,7 @@ public class JDBCBookingDao implements BookingDao {
     public Booking findById(int id) throws DBException{
         Map<Integer, Booking> bookings = new HashMap<>();
 
-        String query = "" +
-                " select b.id as id_booking, b.passport, b.lease_term, b.driver, b.status_id, b.damage, b.damage_paid, " +
-                " c.id as id_car, c.model, c.license_plate, c.quality_class_id, c.price, c.available," +
-                " a.id as id_account, a.login, a.password, a.email, a.role_id, a.blocked" +
-                " from booking b" +
-                " left join booking_has_car ON (b.id = booking_has_car.booking_id)" +
-                " left join car c ON (booking_has_car.car_id = c.id)" +
-                " left join account a ON (b.account_id = a.id)" +
-                "where b.id = ?";
+        String query = SQLConstants.FIND_BOOKING_BY_ID;
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -117,7 +109,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return bookings.get(id);
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -128,21 +120,14 @@ public class JDBCBookingDao implements BookingDao {
     public List<Booking> findAll() throws DBException{
         Map<Integer, Booking> bookings = new HashMap<>();
 
-        String query = "" +
-                " select b.id as id_booking, b.passport, b.lease_term, b.driver, b.status_id, b.damage, b.damage_paid, " +
-                " c.id as id_car, c.model, c.license_plate, c.quality_class_id, c.price, c.available," +
-                " a.id as id_account, a.login, a.password, a.email, a.role_id, a.blocked" +
-                " from booking b" +
-                " left join booking_has_car ON (b.id = booking_has_car.booking_id)" +
-                " left join car c ON (booking_has_car.car_id = c.id)" +
-                " left join account a ON (b.account_id = a.id)";
+        String query = SQLConstants.FIND_ALL_BOOKINGS;
 
         try (Statement st = connection.createStatement();
              ResultSet rs = st.executeQuery(query)) {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         }
     }
 
@@ -150,15 +135,7 @@ public class JDBCBookingDao implements BookingDao {
     public List<Booking> findAllNew() throws DBException{
         Map<Integer, Booking> bookings = new HashMap<>();
 
-        String query = "" +
-                " select b.id as id_booking, b.passport, b.lease_term, b.driver, b.status_id, b.damage, b.damage_paid, " +
-                " c.id as id_car, c.model, c.license_plate, c.quality_class_id, c.price, c.available," +
-                " a.id as id_account, a.login, a.password, a.email, a.role_id, a.blocked" +
-                " from booking b" +
-                " left join booking_has_car ON (b.id = booking_has_car.booking_id)" +
-                " left join car c ON (booking_has_car.car_id = c.id)" +
-                " left join account a ON (b.account_id = a.id)" +
-                "where b.status_id = ?";
+        String query = SQLConstants.FIND_ALL_NEW_BOOKINGS;
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -169,7 +146,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -180,15 +157,7 @@ public class JDBCBookingDao implements BookingDao {
     public List<Booking> findAllApproved()throws DBException {
         Map<Integer, Booking> bookings = new HashMap<>();
 
-        String query = "" +
-                " select b.id as id_booking, b.passport, b.lease_term, b.driver, b.status_id, b.damage, b.damage_paid, " +
-                " c.id as id_car, c.model, c.license_plate, c.quality_class_id, c.price, c.available," +
-                " a.id as id_account, a.login, a.password, a.email, a.role_id, a.blocked" +
-                " from booking b" +
-                " left join booking_has_car ON (b.id = booking_has_car.booking_id)" +
-                " left join car c ON (booking_has_car.car_id = c.id)" +
-                " left join account a ON (b.account_id = a.id)" +
-                "where b.status_id = ?";
+        String query = SQLConstants.FIND_ALL_APPROVED_BOOKINGS;
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -199,7 +168,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -210,15 +179,7 @@ public class JDBCBookingDao implements BookingDao {
     public List<Booking> findAllRejected() throws DBException{
         Map<Integer, Booking> bookings = new HashMap<>();
 
-        String query = "" +
-                " select b.id as id_booking, b.passport, b.lease_term, b.driver, b.status_id, b.damage, b.damage_paid, " +
-                " c.id as id_car, c.model, c.license_plate, c.quality_class_id, c.price, c.available," +
-                " a.id as id_account, a.login, a.password, a.email, a.role_id, a.blocked" +
-                " from booking b" +
-                " left join booking_has_car ON (b.id = booking_has_car.booking_id)" +
-                " left join car c ON (booking_has_car.car_id = c.id)" +
-                " left join account a ON (b.account_id = a.id)" +
-                "where b.status_id = ?";
+        String query = SQLConstants.FIND_ALL_REJECTED_BOOKINGS;
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -229,7 +190,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -239,15 +200,7 @@ public class JDBCBookingDao implements BookingDao {
     public List<Booking> findAllPaid() throws DBException{
         Map<Integer, Booking> bookings = new HashMap<>();
 
-        String query = "" +
-                " select b.id as id_booking, b.passport, b.lease_term, b.driver, b.status_id, b.damage, b.damage_paid, " +
-                " c.id as id_car, c.model, c.license_plate, c.quality_class_id, c.price, c.available," +
-                " a.id as id_account, a.login, a.password, a.email, a.role_id, a.blocked" +
-                " from booking b" +
-                " left join booking_has_car ON (b.id = booking_has_car.booking_id)" +
-                " left join car c ON (booking_has_car.car_id = c.id)" +
-                " left join account a ON (b.account_id = a.id)" +
-                "where b.status_id = ?";
+        String query = SQLConstants.FIND_ALL_PAID_BOOKINGS;
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -258,7 +211,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -268,15 +221,7 @@ public class JDBCBookingDao implements BookingDao {
     public List<Booking> findAllReturned() throws DBException{
         Map<Integer, Booking> bookings = new HashMap<>();
 
-        String query = "" +
-                " select b.id as id_booking, b.passport, b.lease_term, b.driver, b.status_id, b.damage, b.damage_paid, " +
-                " c.id as id_car, c.model, c.license_plate, c.quality_class_id, c.price, c.available," +
-                " a.id as id_account, a.login, a.password, a.email, a.role_id, a.blocked" +
-                " from booking b" +
-                " left join booking_has_car ON (b.id = booking_has_car.booking_id)" +
-                " left join car c ON (booking_has_car.car_id = c.id)" +
-                " left join account a ON (b.account_id = a.id)" +
-                "where b.status_id = ?";
+        String query = SQLConstants.FIND_ALL_RETURNED_BOOKINGS;
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -287,7 +232,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -298,15 +243,7 @@ public class JDBCBookingDao implements BookingDao {
     public List<Booking> findAllByCustomer(int customerID) throws DBException{
         Map<Integer, Booking> bookings = new HashMap<>();
 
-        String query = "" +
-                " select b.id as id_booking, b.passport, b.lease_term, b.driver, b.status_id, b.damage, b.damage_paid, " +
-                " c.id as id_car, c.model, c.license_plate, c.quality_class_id, c.price, c.available," +
-                " a.id as id_account, a.login, a.password, a.email, a.role_id, a.blocked" +
-                " from booking b" +
-                " left join booking_has_car ON (b.id = booking_has_car.booking_id)" +
-                " left join car c ON (booking_has_car.car_id = c.id)" +
-                " left join account a ON (b.account_id = a.id)" +
-                "where a.id = ?";
+        String query = SQLConstants.FIND_ALL_BOOKINGS_BY_CUSTOMER;
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -317,7 +254,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -367,7 +304,7 @@ public class JDBCBookingDao implements BookingDao {
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             setDefaultCommitParameters(connection);
             close(pstmt);
@@ -377,9 +314,7 @@ public class JDBCBookingDao implements BookingDao {
     private void updateBooking(Booking booking) throws DBException{
         PreparedStatement pstmt = null;
         try {
-            pstmt = connection.prepareStatement("UPDATE booking SET account_id = ?, passport = ?, " +
-                    "lease_term = ?, driver = ?, status_id = ?, damage = ?, damage_paid = ?" +
-                    "	WHERE id = ?");
+            pstmt = connection.prepareStatement(SQLConstants.UPDATE_BOOKING);
             int k = 1;
             pstmt.setInt(k++, booking.getAccount().getId());
             pstmt.setString(k++, booking.getPassport());
@@ -391,7 +326,7 @@ public class JDBCBookingDao implements BookingDao {
             pstmt.setInt(k, booking.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -400,11 +335,11 @@ public class JDBCBookingDao implements BookingDao {
     public void deleteBookingCars(int bookingID) throws DBException{
         PreparedStatement pstmt = null;
         try {
-            pstmt = connection.prepareStatement("delete from booking_has_car where booking_id = ?");
+            pstmt = connection.prepareStatement(SQLConstants.DELETE_BOOKING_HAS_CAR);
             pstmt.setInt(1, bookingID);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -421,7 +356,7 @@ public class JDBCBookingDao implements BookingDao {
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
-            throw new DBException("DB exception", e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         } finally {
             setDefaultCommitParameters(connection);
             close(pstmt);
@@ -431,7 +366,7 @@ public class JDBCBookingDao implements BookingDao {
     private void deleteBooking(int id) throws SQLException {
         PreparedStatement pstmt = null;
         try {
-            pstmt = connection.prepareStatement("delete from booking where id = ?");
+            pstmt = connection.prepareStatement(SQLConstants.DELETE_BOOKING);
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {

@@ -1,5 +1,6 @@
 package com.gmail.lesiiayurchenko.model.dao.mapper;
 
+import com.gmail.lesiiayurchenko.model.dao.SQLConstants;
 import com.gmail.lesiiayurchenko.model.entity.Account;
 
 import java.sql.ResultSet;
@@ -11,12 +12,12 @@ public class AccountMapper implements ObjectMapper<Account> {
     @Override
     public Account extractFromResultSet(ResultSet rs) throws SQLException {
         Account account = new Account();
-        account.setId(rs.getInt("id_account"));
-        account.setLogin(rs.getString("login"));
-        account.setPassword(rs.getString("password"));
-        account.setEmail(rs.getString("email"));
-        account.setRole(Account.Role.values()[rs.getInt("role_id")-1]);
-        account.setBlocked(rs.getInt("blocked")!=0);
+        account.setId(rs.getInt(SQLConstants.ACCOUNT_ID));
+        account.setLogin(rs.getString(SQLConstants.LOGIN));
+        account.setPassword(rs.getString(SQLConstants.PASSWORD));
+        account.setEmail(rs.getString(SQLConstants.EMAIL));
+        account.setRole(Account.Role.values()[rs.getInt(SQLConstants.ROLE_ID)-1]);
+        account.setBlocked(rs.getInt(SQLConstants.BLOCKED)!=0);
         return account;
     }
 

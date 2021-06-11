@@ -31,7 +31,7 @@ public class JDBCBookingDao implements BookingDao {
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             addBooking(entity);
-            entity.setId(getBookingId(entity));
+            entity.setId(getBookingId());
             for (Car car : entity.getCars()) {
                 addBookingCars(entity, car);
             }
@@ -66,7 +66,7 @@ public class JDBCBookingDao implements BookingDao {
         }
     }
 
-    private int getBookingId(Booking booking) throws SQLException {
+    private int getBookingId() throws SQLException {
         int id=0;
         try (Statement st = connection.createStatement();
              ResultSet rs = st.executeQuery(SQLConstants.GET_LAST_INSERT_BOOKING_ID)) {
@@ -96,7 +96,7 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public Booking findById(int id) throws DBException{
-        Map<Integer, Booking> bookings = new HashMap<>();
+        Map<Integer, Booking> bookings;
 
         String query = SQLConstants.FIND_BOOKING_BY_ID;
 
@@ -118,7 +118,7 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public List<Booking> findAll() throws DBException{
-        Map<Integer, Booking> bookings = new HashMap<>();
+        Map<Integer, Booking> bookings;
 
         String query = SQLConstants.FIND_ALL_BOOKINGS;
 
@@ -133,7 +133,7 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public List<Booking> findAllNew() throws DBException{
-        Map<Integer, Booking> bookings = new HashMap<>();
+        Map<Integer, Booking> bookings;
 
         String query = SQLConstants.FIND_ALL_NEW_BOOKINGS;
 
@@ -155,7 +155,7 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public List<Booking> findAllApproved()throws DBException {
-        Map<Integer, Booking> bookings = new HashMap<>();
+        Map<Integer, Booking> bookings;
 
         String query = SQLConstants.FIND_ALL_APPROVED_BOOKINGS;
 
@@ -177,7 +177,7 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public List<Booking> findAllRejected() throws DBException{
-        Map<Integer, Booking> bookings = new HashMap<>();
+        Map<Integer, Booking> bookings;
 
         String query = SQLConstants.FIND_ALL_REJECTED_BOOKINGS;
 
@@ -198,7 +198,7 @@ public class JDBCBookingDao implements BookingDao {
     }
 
     public List<Booking> findAllPaid() throws DBException{
-        Map<Integer, Booking> bookings = new HashMap<>();
+        Map<Integer, Booking> bookings;
 
         String query = SQLConstants.FIND_ALL_PAID_BOOKINGS;
 
@@ -219,7 +219,7 @@ public class JDBCBookingDao implements BookingDao {
     }
 
     public List<Booking> findAllReturned() throws DBException{
-        Map<Integer, Booking> bookings = new HashMap<>();
+        Map<Integer, Booking> bookings;
 
         String query = SQLConstants.FIND_ALL_RETURNED_BOOKINGS;
 
@@ -241,7 +241,7 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public List<Booking> findAllByCustomer(int customerID) throws DBException{
-        Map<Integer, Booking> bookings = new HashMap<>();
+        Map<Integer, Booking> bookings;
 
         String query = SQLConstants.FIND_ALL_BOOKINGS_BY_CUSTOMER;
 
@@ -270,7 +270,7 @@ public class JDBCBookingDao implements BookingDao {
         CarMapper carMapper = new CarMapper();
         AccountMapper accountMapper = new AccountMapper();
 
-        Booking booking = null;
+        Booking booking;
 
         try {
             while (rs.next()) {

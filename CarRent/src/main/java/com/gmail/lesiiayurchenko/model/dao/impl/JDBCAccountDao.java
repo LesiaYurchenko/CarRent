@@ -29,7 +29,7 @@ public class JDBCAccountDao implements AccountDao {
             pstmt.setString(k++, entity.getPassword());
             pstmt.setString(k++, entity.getEmail());
             pstmt.setInt(k++, entity.getRole().ordinal()+1);
-            pstmt.setInt(k++, entity.isBlocked()?1:0);
+            pstmt.setInt(k, entity.isBlocked()?1:0);
             pstmt.executeUpdate();
         } catch (SQLException e){
             throw new DBException(DBException.DBEXCEPTION, e);

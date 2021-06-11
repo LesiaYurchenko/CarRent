@@ -29,7 +29,7 @@ public class JDBCCarDao implements CarDao {
             pstmt.setString(k++, entity.getLicensePlate());
             pstmt.setInt(k++, entity.getQualityClass().ordinal()+1);
             pstmt.setBigDecimal(k++, entity.getPrice());
-            pstmt.setInt(k++, entity.isAvailable()?1:0);
+            pstmt.setInt(k, entity.isAvailable()?1:0);
             pstmt.executeUpdate();
         } catch (SQLException e){
             throw new DBException(DBException.DBEXCEPTION, e);
@@ -300,7 +300,7 @@ public class JDBCCarDao implements CarDao {
             pstmt = connection.prepareStatement(query);
             int k =1;
             pstmt.setBoolean(k++, true);
-            pstmt.setInt(k++, qualityClass.ordinal()+1);
+            pstmt.setInt(k, qualityClass.ordinal()+1);
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 numberOfRows = rs.getInt(SQLConstants.NUMBER);

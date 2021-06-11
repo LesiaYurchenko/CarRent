@@ -82,6 +82,7 @@
 </ul>
 <br>
 <br>
+<br>
 <h1 align="center"><fmt:message key="label.RegisterPlease"/></h1><br/>
 <br>
 <form class="menu" method="post" action="${pageContext.request.contextPath}/registration">

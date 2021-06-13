@@ -1,9 +1,6 @@
 package com.gmail.lesiiayurchenko.model.dao.impl;
 
-import com.gmail.lesiiayurchenko.model.dao.AccountDao;
-import com.gmail.lesiiayurchenko.model.dao.BookingDao;
-import com.gmail.lesiiayurchenko.model.dao.CarDao;
-import com.gmail.lesiiayurchenko.model.dao.DaoFactory;
+import com.gmail.lesiiayurchenko.model.dao.*;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -14,23 +11,23 @@ public class JDBCDaoFactory extends DaoFactory {
     private DataSource dataSource = ConnectionPoolHolder.getDataSource();
 
     @Override
-    public AccountDao createAccountDao() {
+    public AccountDao createAccountDao() throws DBException {
         return new JDBCAccountDao(getConnection());
     }
     @Override
-    public CarDao createCarDao() {
+    public CarDao createCarDao() throws DBException {
         return new JDBCCarDao(getConnection());
     }
     @Override
-    public BookingDao createBookingDao() {
+    public BookingDao createBookingDao() throws DBException {
         return new JDBCBookingDao(getConnection());
     }
 
-    private Connection getConnection(){
+    private Connection getConnection() throws DBException {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DBException(DBException.DBEXCEPTION, e);
         }
     }
 }

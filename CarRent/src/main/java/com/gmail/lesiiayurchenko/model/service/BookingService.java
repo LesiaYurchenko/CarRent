@@ -12,8 +12,15 @@ import java.util.List;
 import java.util.Optional;
 
 public class BookingService {
+    DaoFactory daoFactory;
 
-    DaoFactory daoFactory = DaoFactory.getInstance();
+    public BookingService() {
+        this.daoFactory = DaoFactory.getInstance();
+    }
+
+    public BookingService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
 
     public Optional<Booking> createBooking(Account account, List<Car> cars, String passport, int leaseTerm, boolean driver) throws DBException {
         Booking booking = new Booking();

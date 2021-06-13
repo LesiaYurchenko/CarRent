@@ -11,7 +11,15 @@ import java.util.Optional;
 
 public class AccountService {
 
-    DaoFactory daoFactory = DaoFactory.getInstance();
+    DaoFactory daoFactory;
+
+    public AccountService() {
+       this.daoFactory = DaoFactory.getInstance();
+    }
+
+    public AccountService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
 
     public Optional<List<Account>> getCustomers(int currentPage, int recordsPerPage) throws DBException {
         try (AccountDao dao = daoFactory.createAccountDao()) {
@@ -20,6 +28,7 @@ public class AccountService {
             throw e;
         }
     }
+
 
     public Optional<List<Account>>  getManagers(int currentPage, int recordsPerPage) throws DBException {
         try (AccountDao dao = daoFactory.createAccountDao()) {
@@ -46,7 +55,7 @@ public class AccountService {
     }
 
     public Optional<Account> login(String login) throws DBException {
-        Optional<Account> result; //= Optional.empty();
+        Optional<Account> result;
         try (AccountDao dao = daoFactory.createAccountDao()) {
             result = Optional.ofNullable(dao.findByLogin(login));
         } catch (DBException e) {

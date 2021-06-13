@@ -11,7 +11,15 @@ import java.util.Optional;
 
 public class CarService {
 
-    DaoFactory daoFactory = DaoFactory.getInstance();
+    DaoFactory daoFactory;
+
+    public CarService() {
+        this.daoFactory = DaoFactory.getInstance();
+    }
+
+    public CarService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
 
     public Optional<List<Car>> getAllCars() throws DBException {
         try (CarDao dao = daoFactory.createCarDao()) {

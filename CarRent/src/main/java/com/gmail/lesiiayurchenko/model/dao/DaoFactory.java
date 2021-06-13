@@ -5,9 +5,9 @@ import com.gmail.lesiiayurchenko.model.dao.impl.JDBCDaoFactory;
 public abstract class DaoFactory {
     private static DaoFactory daoFactory;
 
-    public abstract AccountDao createAccountDao();
-    public abstract CarDao createCarDao();
-    public abstract BookingDao createBookingDao();
+    public abstract AccountDao createAccountDao() throws DBException;
+    public abstract CarDao createCarDao() throws DBException;
+    public abstract BookingDao createBookingDao() throws DBException;
 
     public static DaoFactory getInstance(){
         if( daoFactory == null ){

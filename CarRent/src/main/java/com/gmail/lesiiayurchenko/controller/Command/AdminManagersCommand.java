@@ -43,6 +43,6 @@ public class AdminManagersCommand implements Command {
         request.setAttribute("noOfPages", numberOfPages);
         request.setAttribute("currentPage", currentPage);
 
-        return "/WEB-INF/admin/adminmanagers.jsp";
+        return "/WEB-INF/admin/adminManagers.jsp";
     }
 }

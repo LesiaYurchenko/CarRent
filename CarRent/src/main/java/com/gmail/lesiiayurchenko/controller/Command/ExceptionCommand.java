@@ -15,13 +15,13 @@ public class ExceptionCommand implements Command {
         String page;
         switch (role){
             case CUSTOMER:
-                page =  "redirect:/customerbasis";
+                page =  "redirect:/customerBasis";
                 break;
             case ADMIN:
-                page =  "redirect:/admincars";
+                page =  "redirect:/adminCars";
                 break;
             case MANAGER:
-                page =  "redirect:/managernewbookings";
+                page =  "redirect:/managerNewBookings";
                 break;
             default:
                 page = "redirect:/main";

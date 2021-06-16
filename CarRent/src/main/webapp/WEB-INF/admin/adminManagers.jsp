@@ -80,9 +80,9 @@
 </style>
 
 <ul class="menu-2">
-    <li><a href="${pageContext.request.contextPath}/admincustomers"><fmt:message key="label.Customers" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/adminmanagers"><fmt:message key="label.Managers" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/admincars"><fmt:message key="label.Cars" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/adminCustomers"><fmt:message key="label.Customers" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/adminManagers"><fmt:message key="label.Managers" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/adminCars"><fmt:message key="label.Cars" /></a></li>
     <li><a href="${pageContext.request.contextPath}/logout"><fmt:message key="label.Logout" /></a></li>
     <fmt:message key="label.Language" />:
     <li><a href="?lang=en"><fmt:message key="label.en" /></a></li>
@@ -112,14 +112,14 @@
             <td>${i.role}</td>
             <td align="center">${i.blocked}</td>
             <td align="center">
-                <form method="post" action="${pageContext.request.contextPath}/adminchanges">
+                <form method="post" action="${pageContext.request.contextPath}/adminChanges">
                     <input type="hidden" name="id" value="${i.id}"/>
                     <input type="hidden" name="act" value="Block Manager"/>
                     <input class="button" type="submit" name="action" value="<fmt:message key="label.BlockManager" />">
                 </form>
             </td>
             <td align="center">
-                <form action="${pageContext.request.contextPath}/adminchanges" method="post">
+                <form action="${pageContext.request.contextPath}/adminChanges" method="post">
                     <input type="hidden" name="id" value="${i.id}"/>
                     <input type="hidden" name="act" value="Unblock Manager"/>
                     <input class="button" type="submit" name="action" value="<fmt:message key="label.UnblockManager" />">
@@ -132,7 +132,7 @@
         <ul class="pagination justify-content-center">
             <c:if test="${currentPage != 1}">
                 <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/adminmanagers?currentPage=${currentPage-1}"><fmt:message key="label.Previous" /></a>
+                                         href="${pageContext.request.contextPath}/adminManagers?currentPage=${currentPage-1}"><fmt:message key="label.Previous" /></a>
                 </li>
             </c:if>
 
@@ -145,7 +145,7 @@
                     </c:when>
                     <c:otherwise>
                         <li class="page-item"><a class="page-link"
-                                                 href="${pageContext.request.contextPath}/adminmanagers?currentPage=${i}">${i}</a>
+                                                 href="${pageContext.request.contextPath}/adminManagers?currentPage=${i}">${i}</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
@@ -153,7 +153,7 @@
 
             <c:if test="${currentPage lt noOfPages}">
                 <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/adminmanagers?currentPage=${currentPage+1}"><fmt:message key="label.Next" /></a>
+                                         href="${pageContext.request.contextPath}/adminManagers?currentPage=${currentPage+1}"><fmt:message key="label.Next" /></a>
                 </li>
             </c:if>
         </ul>
@@ -163,7 +163,7 @@
 
 <main class="menu">
     <h3 align="center"> <fmt:message key="label.NewManager" />: </h3>
-    <form method="post" action="${pageContext.request.contextPath}/adminchanges">
+    <form method="post" action="${pageContext.request.contextPath}/adminChanges">
         <input type="text" name="login" required pattern="[a-zA-Zа-яА-ЯёЁїЇіІєЄ0-9]{3,10}"
                title="<fmt:message key="label.WrongLogin"/>"
                oninvalid="this.setCustomValidity('<fmt:message key="label.WrongLogin"/>')" oninput="setCustomValidity('')"
@@ -176,7 +176,7 @@
         <input type="email" id="3" name="email" required
                title="<fmt:message key="label.WrongEmail"/>"
                oninvalid="this.setCustomValidity('<fmt:message key="label.WrongEmail"/>')"
-               oninput="setCustomValidity('<fmt:message key="label.WrongEmail"/>')"
+               oninput="setCustomValidity('')"
                placeholder="<fmt:message key="label.email" />"><br/>
         <br>
         <input type="hidden" name="act" value="Register New Manager"/>

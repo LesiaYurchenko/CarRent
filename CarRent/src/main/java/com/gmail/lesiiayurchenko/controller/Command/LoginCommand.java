@@ -29,17 +29,17 @@ public class LoginCommand implements Command {
             CommandUtility.putInfoIntoSession(request, Account.Role.ADMIN, login, id);
             log.trace("Admin " + login + " logged successfully");
             log.debug("Command finished");
-            return "redirect:/admincars";
+            return "redirect:/adminCars";
         } else if (Account.Role.MANAGER.equals(role)) {
             CommandUtility.putInfoIntoSession(request, Account.Role.MANAGER, login, id);
             log.trace("Manager" + login + " logged successfully");
             log.debug("Command finished");
-            return "redirect:/managernewbookings";
+            return "redirect:/managerNewBookings";
         } else if (Account.Role.CUSTOMER.equals(role)) {
             CommandUtility.putInfoIntoSession(request, Account.Role.CUSTOMER, login, id);
             log.trace("Customer" + login + " logged successfully");
             log.debug("Command finished");
-            return "redirect:/customerbasis";
+            return "redirect:/customerBasis";
         } else {
             log.trace("Role is guest");
             log.debug("Command finished");

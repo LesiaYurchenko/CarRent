@@ -60,7 +60,7 @@ public class CustomerBasisCommand implements Command {
         request.setAttribute("noOfPages", numberOfPages);
         request.setAttribute("currentPage", currentPage);
 
-        return "/WEB-INF/customer/customerbasis.jsp";
+        return "/WEB-INF/customer/customerBasis.jsp";
     }
 
     private String checkFilter(HttpServletRequest request) {

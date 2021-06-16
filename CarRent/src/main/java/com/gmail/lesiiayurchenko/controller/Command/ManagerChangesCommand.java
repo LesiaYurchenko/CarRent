@@ -37,7 +37,7 @@ public class ManagerChangesCommand implements Command {
                 page = rejectBooking(request);
             break;
             default:
-                page = "redirect:/managerbasis";
+                page = "redirect:/managerBasis";
             break;
         }
         return page;
@@ -51,7 +51,7 @@ public class ManagerChangesCommand implements Command {
             log.error("Cannot register damage", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/managerusebookings";
+        return "redirect:/managerUseBookings";
     }
 
     private String registerDamageBillPayment(HttpServletRequest request) {
@@ -62,7 +62,7 @@ public class ManagerChangesCommand implements Command {
             log.error("Cannot pay damage", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/managerusebookings";
+        return "redirect:/managerUseBookings";
     }
 
     private String returnBooking(HttpServletRequest request) {
@@ -73,7 +73,7 @@ public class ManagerChangesCommand implements Command {
             log.error("Cannot return booking", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/managerusebookings";
+        return "redirect:/managerUseBookings";
     }
 
     private String approveBooking(HttpServletRequest request) {
@@ -84,7 +84,7 @@ public class ManagerChangesCommand implements Command {
             log.error("Cannot approve booking", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/managernewbookings";
+        return "redirect:/managerNewBookings";
     }
 
     private String rejectBooking(HttpServletRequest request) {
@@ -95,7 +95,7 @@ public class ManagerChangesCommand implements Command {
             log.error("Cannot reject booking", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/managernewbookings";
+        return "redirect:/managerNewBookings";
     }
 
     private Booking getBooking (HttpServletRequest request) throws DBException {

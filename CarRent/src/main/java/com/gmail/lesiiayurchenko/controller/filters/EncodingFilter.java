@@ -8,7 +8,7 @@ import java.io.IOException;
 public class EncodingFilter implements Filter {
     private static final Logger log = Logger.getLogger(EncodingFilter.class);
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         log.debug("Filter initialization starts");
         log.debug("Filter initialization finished");
     }

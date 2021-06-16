@@ -37,6 +37,6 @@ public class CustomerBookingsCommand implements Command {
 
         bookings.ifPresent(bookingList ->request.setAttribute("myBookings" , bookingList));
 
-        return "/WEB-INF/customer/customerbookings.jsp";
+        return "/WEB-INF/customer/customerBookings.jsp";
     }
 }

@@ -32,7 +32,7 @@ public class JDBCCarDao implements CarDao {
             pstmt.setInt(k, entity.isAvailable()?1:0);
             pstmt.executeUpdate();
         } catch (SQLException e){
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -54,7 +54,7 @@ public class JDBCCarDao implements CarDao {
             }
             return car;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -75,7 +75,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         }
     }
 
@@ -98,7 +98,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -126,7 +126,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -155,7 +155,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -186,7 +186,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -217,7 +217,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -246,7 +246,7 @@ public class JDBCCarDao implements CarDao {
             }
             return cars;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -264,7 +264,7 @@ public class JDBCCarDao implements CarDao {
                             }
             return numberOfRows;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         }
     }
 
@@ -283,7 +283,7 @@ public class JDBCCarDao implements CarDao {
             }
             return numberOfRows;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -307,7 +307,7 @@ public class JDBCCarDao implements CarDao {
             }
             return numberOfRows;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -329,7 +329,7 @@ public class JDBCCarDao implements CarDao {
             pstmt.setInt(k, entity.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -343,7 +343,7 @@ public class JDBCCarDao implements CarDao {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(pstmt);
         }

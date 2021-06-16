@@ -28,6 +28,6 @@ public class ManagerNewBookingsCommand implements Command {
         }
         newBookings.ifPresent(bookingList -> request.setAttribute("newBookings" , bookingList));
 
-        return "/WEB-INF/manager/managernewbookings.jsp";
+        return "/WEB-INF/manager/managerNewBookings.jsp";
     }
 }

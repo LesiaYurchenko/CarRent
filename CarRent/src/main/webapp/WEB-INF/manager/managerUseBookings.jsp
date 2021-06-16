@@ -54,9 +54,9 @@
 </style>
 <br>
 <ul class="menu-2">
-    <li><a href="${pageContext.request.contextPath}/managernewbookings"><fmt:message key="label.NewBookings" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/managerusebookings"><fmt:message key="label.BookingsInUse" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/managerreturnedbookings"><fmt:message key="label.ReturnedBookings" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/managerNewBookings"><fmt:message key="label.NewBookings" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/managerUseBookings"><fmt:message key="label.BookingsInUse" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/managerReturnedBookings"><fmt:message key="label.ReturnedBookings" /></a></li>
     <li><a href="${pageContext.request.contextPath}/logout"><fmt:message key="label.Logout" /></a></li>
     <fmt:message key="label.Language" />:
     <li><a href="?lang=en"><fmt:message key="label.en" /></a></li>
@@ -66,7 +66,7 @@
 <br>
 
 <h1>
-    <fmt:message key="label.ReturnedBookings" /><br/>
+    Bookings In Use <br/>
 </h1>
 <table width="80%" cellspacing="1" cellpadding="4" border="1">
     <tr>
@@ -78,27 +78,48 @@
         <th><fmt:message key="label.Status" /></th>
         <th><fmt:message key="label.Damage" /></th>
         <th><fmt:message key="label.DamagePaid" /></th>
+        <th><fmt:message key="label.ConfirmReturn" /></th>
     </tr>
-    <c:forEach var="i" items="${returnedBookings}">
+    <c:forEach var="b2" items="${useBookings}">
     <tr>
-        <td><fmt:message key="label.login" />: ${i.account.login}<br/>
-            <fmt:message key="label.email" />: ${i.account.email}<br/>
-            <fmt:message key="label.blocked" />: ${i.account.blocked}</td>
-        <td>${i.passport}</td>
-        <td><c:forEach var="c" items="${i.cars}">
+        <td><fmt:message key="label.login" />: ${b2.account.login}<br/>
+            <fmt:message key="label.email" />: ${b2.account.email}<br/>
+            <fmt:message key="label.blocked" />: ${b2.account.blocked}</td>
+        <td>${b2.passport}</td>
+        <td><c:forEach var="c" items="${b2.cars}">
             <fmt:message key="label.Model" />: ${c.model}<br/>
             <fmt:message key="label.QualityClass" />: ${c.qualityClass}<br/>
             <fmt:message key="label.Price" />: ${c.price}<br><br>
         </c:forEach></td>
-        <td>${i.leaseTerm}</td>
-        <td align="center">${i.driver}</td>
-        <td>${i.status}</td>
-        <td align="center">${i.damage}</td>
-        <td align="center">${i.damagePaid}</td>
+        <td>${b2.leaseTerm}</td>
+        <td align="center">${b2.driver}</td>
+        <td>${b2.status}</td>
+        <td align="center">${b2.damage}<br/>
+            <form method="post" action="${pageContext.request.contextPath}/managerChanges">
+                <input type="hidden" name="id" value="${b2.id}"/>
+                <input type="hidden" name="act" value="Send Damage Bill"/>
+                <input class="button" type="submit" name="action" value="<fmt:message key="label.SendDamageBill" />">
+            </form>
+        </td>
+        <td align="center">${b2.damagePaid}<br/>
+            <form method="post" action="${pageContext.request.contextPath}/managerChanges">
+                <input type="hidden" name="id" value="${b2.id}"/>
+                <input type="hidden" name="act" value="Register Damage Bill Payment"/>
+                <input class="button" type="submit" name="action" value="<fmt:message key="label.RegisterDamageBillPayment" />">
+            </form>
+        </td>
+        <td align="center">
+            <form action="${pageContext.request.contextPath}/managerChanges" method="post">
+                <input type="hidden" name="id" value="${b2.id}"/>
+                <input type="hidden" name="act" value="Return Booking"/>
+                <input class="button" type="submit" name="action" value="<fmt:message key="label.ReturnBooking" />">
+            </form>
+        </td>
         </c:forEach>
 </table>
 <br>
 <br>
+
 
 </body>
 </html>

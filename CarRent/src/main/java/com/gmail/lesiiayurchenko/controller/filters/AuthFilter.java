@@ -14,7 +14,7 @@ public class AuthFilter implements Filter {
     AccountService accountService = new AccountService();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         log.debug("Filter initialization starts");
         log.debug("Filter initialization finished");
     }

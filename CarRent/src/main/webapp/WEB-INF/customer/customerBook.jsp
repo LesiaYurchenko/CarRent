@@ -59,9 +59,9 @@
 </style>
 <br>
 <ul class="menu-2">
-    <li><a href="${pageContext.request.contextPath}/customerbasis"><fmt:message key="label.OurCars" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/customerbookings"><fmt:message key="label.MyOrders" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/customeraccount"><fmt:message key="label.PersonalInformation" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/customerBasis"><fmt:message key="label.OurCars" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/customerBookings"><fmt:message key="label.MyOrders" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/customerAccount"><fmt:message key="label.PersonalInformation" /></a></li>
     <li><a href="${pageContext.request.contextPath}/logout"><fmt:message key="label.Logout" /></a></li>
     <fmt:message key="label.Language" />:
     <li><a href="?lang=en"><fmt:message key="label.en" /></a></li>
@@ -91,7 +91,7 @@
 </table>
 <br>
 <br>
-<form method="post" action="${pageContext.request.contextPath}/customerbook">
+<form method="post" action="${pageContext.request.contextPath}/customerBook">
     <fmt:message key="label.Passport"/>:<input type="text" name="passport" required pattern="([A-Z]{2})([0-9]{6})|[0-9]{9}"
            title="<fmt:message key="label.WrongPassport"/>"
            oninvalid="this.setCustomValidity('<fmt:message key="label.WrongPassport"/>')" oninput="setCustomValidity('')"

@@ -42,6 +42,6 @@ public class AdminCarsCommand implements Command {
         }
         request.setAttribute("noOfPages", numberOfPages);
         request.setAttribute("currentPage", currentPage);
-        return "/WEB-INF/admin/admincars.jsp";
+        return "/WEB-INF/admin/adminCars.jsp";
     }
 }

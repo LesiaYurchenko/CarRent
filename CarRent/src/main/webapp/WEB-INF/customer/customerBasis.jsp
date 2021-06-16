@@ -98,9 +98,9 @@
 </style>
 <br>
 <ul class="menu-2">
-    <li><a href="${pageContext.request.contextPath}/customerbasis"><fmt:message key="label.OurCars" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/customerbookings"><fmt:message key="label.MyOrders" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/customeraccount"><fmt:message key="label.PersonalInformation" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/customerBasis"><fmt:message key="label.OurCars" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/customerBookings"><fmt:message key="label.MyOrders" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/customerAccount"><fmt:message key="label.PersonalInformation" /></a></li>
     <li><a href="${pageContext.request.contextPath}/logout"><fmt:message key="label.Logout" /></a></li>
     <fmt:message key="label.Language" />:
     <li><a href="?lang=en"><fmt:message key="label.en" /></a></li>
@@ -111,12 +111,12 @@
 <h1 align="center"><fmt:message key="label.OurCars" /></h1>
 
 <ul class="menu-1">
-    <form method="post" action="${pageContext.request.contextPath}/customerbasis">
+    <form method="post" action="${pageContext.request.contextPath}/customerBasis">
         <input type="hidden" name="id" value="price"/>
         <input class="button" type="submit" name="sorter" value="<fmt:message key="label.SortByPrice" />">
     </form>
 
-    <form method="post" action="${pageContext.request.contextPath}/customerbasis">
+    <form method="post" action="${pageContext.request.contextPath}/customerBasis">
         <input type="hidden" name="id" value="qualityClass"/>
         <input class="button" type="submit" name="filter" value="<fmt:message key="label.FilterByQualityClass" />">
         <select class="selectpicker" name="qualityClass">
@@ -143,14 +143,14 @@
             <td>${i.qualityClass}</td>
             <td>${i.price}</td>
             <td align="center">
-                <form action="${pageContext.request.contextPath}/customerbook" method="post">
+                <form action="${pageContext.request.contextPath}/customerBook" method="post">
                     <input type="hidden" name="id" value="${i.id}"/>
                     <input type="hidden" name="act" value="Add Car"/>
                     <input class="button" type="submit" name="action" value="<fmt:message key="label.AddCar" />"/>
                 </form>
             </td>
             <td align="center">
-                <form action="${pageContext.request.contextPath}/customerbook" method="post">
+                <form action="${pageContext.request.contextPath}/customerBook" method="post">
                     <input type="hidden" name="id" value="${i.id}"/>
                     <input type="hidden" name="act" value="Delete Car"/>
                     <input class="button" type="submit" name="action" value="<fmt:message key="label.DeleteCar" />"/>
@@ -163,7 +163,7 @@
         <ul class="pagination justify-content-center">
             <c:if test="${currentPage != 1}">
                 <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/customerbasis?currentPage=${currentPage-1}"><fmt:message key="label.Previous" /></a>
+                                         href="${pageContext.request.contextPath}/customerBasis?currentPage=${currentPage-1}"><fmt:message key="label.Previous" /></a>
                 </li>
             </c:if>
 
@@ -176,7 +176,7 @@
                     </c:when>
                     <c:otherwise>
                         <li class="page-item"><a class="page-link"
-                                                 href="${pageContext.request.contextPath}/customerbasis?currentPage=${i}">${i}</a>
+                                                 href="${pageContext.request.contextPath}/customerBasis?currentPage=${i}">${i}</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
@@ -184,13 +184,13 @@
 
             <c:if test="${currentPage lt noOfPages}">
                 <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/customerbasis?currentPage=${currentPage+1}"><fmt:message key="label.Next" /></a>
+                                         href="${pageContext.request.contextPath}/customerBasis?currentPage=${currentPage+1}"><fmt:message key="label.Next" /></a>
                 </li>
             </c:if>
         </ul>
     </nav>
     <br>
-    <form class="menu-1" action="${pageContext.request.contextPath}/customerbook" method="post">
+    <form class="menu-1" action="${pageContext.request.contextPath}/customerBook" method="post">
         <input type="hidden" name="act" value="Book"/>
         <input class="button" type="submit" name="action" value="<fmt:message key="label.Book" />"/>
     </form>

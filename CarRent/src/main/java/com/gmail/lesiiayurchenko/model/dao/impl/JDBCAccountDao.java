@@ -32,7 +32,7 @@ public class JDBCAccountDao implements AccountDao {
             pstmt.setInt(k, entity.isBlocked()?1:0);
             pstmt.executeUpdate();
         } catch (SQLException e){
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -54,7 +54,7 @@ public class JDBCAccountDao implements AccountDao {
             }
             return account;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -77,7 +77,7 @@ public class JDBCAccountDao implements AccountDao {
             }
             return account;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -99,7 +99,7 @@ public class JDBCAccountDao implements AccountDao {
             }
             return accounts;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         }
     }
 
@@ -124,7 +124,7 @@ public class JDBCAccountDao implements AccountDao {
             }
             return accounts;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         }finally {
             close(rs);
             close(pstmt);
@@ -152,7 +152,7 @@ public class JDBCAccountDao implements AccountDao {
             }
             return accounts;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         }finally {
             close(rs);
             close(pstmt);
@@ -174,7 +174,7 @@ public class JDBCAccountDao implements AccountDao {
             }
             return numberOfRows;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         }finally {
             close(rs);
             close(pstmt);
@@ -197,7 +197,7 @@ public class JDBCAccountDao implements AccountDao {
             }
             return numberOfRows;
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         }finally {
             close(rs);
             close(pstmt);
@@ -218,7 +218,7 @@ public class JDBCAccountDao implements AccountDao {
             pstmt.setInt(k, entity.getId());
             pstmt.executeUpdate();
         } catch (SQLException e){
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -232,7 +232,7 @@ public class JDBCAccountDao implements AccountDao {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -243,7 +243,7 @@ public class JDBCAccountDao implements AccountDao {
         try {
             connection.close();
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         }
     }
 }

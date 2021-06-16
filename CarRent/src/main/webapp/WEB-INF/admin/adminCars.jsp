@@ -81,9 +81,9 @@
 </style>
 
 <ul class="menu-2">
-    <li><a href="${pageContext.request.contextPath}/admincustomers"><fmt:message key="label.Customers" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/adminmanagers"><fmt:message key="label.Managers" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/admincars"><fmt:message key="label.Cars" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/adminCustomers"><fmt:message key="label.Customers" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/adminManagers"><fmt:message key="label.Managers" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/adminCars"><fmt:message key="label.Cars" /></a></li>
     <li><a href="${pageContext.request.contextPath}/logout"><fmt:message key="label.Logout" /></a></li>
     <fmt:message key="label.Language" />:
     <li><a href="?lang=en"><fmt:message key="label.en" /></a></li>
@@ -111,7 +111,7 @@
             <td align="center">${i.price}</td>
             <td align="center">${i.available}</td>
             <td>
-                <form method="post" action="${pageContext.request.contextPath}/adminchanges">
+                <form method="post" action="${pageContext.request.contextPath}/adminChanges">
                     <input type="hidden" name="id" value="${i.id}"/>
                     <input type="text" name="model" required placeholder="<fmt:message key="label.Model" />"
                            title="<fmt:message key="label.EnterModel"/>"
@@ -139,7 +139,7 @@
                 </form>
             </td>
             <td align="center">
-                <form action="${pageContext.request.contextPath}/adminchanges" method="post">
+                <form action="${pageContext.request.contextPath}/adminChanges" method="post">
                     <input type="hidden" name="id" value="${i.id}"/>
                     <input type="hidden" name="act" value="Delete Car"/>
                     <input class="button" type="submit" name="action" value="<fmt:message key="label.DeleteCar" />"/>
@@ -152,7 +152,7 @@
         <ul class="pagination justify-content-center">
             <c:if test="${currentPage != 1}">
                 <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/admincars?currentPage=${currentPage-1}"><fmt:message key="label.Previous" /></a>
+                                         href="${pageContext.request.contextPath}/adminCars?currentPage=${currentPage-1}"><fmt:message key="label.Previous" /></a>
                 </li>
             </c:if>
 
@@ -165,7 +165,7 @@
                     </c:when>
                     <c:otherwise>
                         <li class="page-item"><a class="page-link"
-                                                 href="${pageContext.request.contextPath}/admincars?currentPage=${i}">${i}</a>
+                                                 href="${pageContext.request.contextPath}/adminCars?currentPage=${i}">${i}</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
@@ -173,7 +173,7 @@
 
             <c:if test="${currentPage lt noOfPages}">
                 <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/admincars?currentPage=${currentPage+1}"><fmt:message key="label.Next" /></a>
+                                         href="${pageContext.request.contextPath}/adminCars?currentPage=${currentPage+1}"><fmt:message key="label.Next" /></a>
                 </li>
             </c:if>
         </ul>
@@ -182,7 +182,7 @@
 <br>
 <main class="menu">
     <h3 align="center"> <fmt:message key="label.NewCar"/>: </h3>
-    <form method="post" action="${pageContext.request.contextPath}/adminchanges">
+    <form method="post" action="${pageContext.request.contextPath}/adminChanges">
         <input type="text" name="model" required placeholder="<fmt:message key="label.Model" />"
                title="<fmt:message key="label.EnterModel"/>"
                oninvalid="this.setCustomValidity('<fmt:message key="label.EnterModel"/>')" oninput="setCustomValidity('')"

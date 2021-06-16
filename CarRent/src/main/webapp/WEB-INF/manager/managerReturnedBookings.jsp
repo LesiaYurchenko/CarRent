@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: Lesia Yurchenko
   Date: 6/3/2021
-  Time: 1:25 PM
+  Time: 1:26 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -54,9 +54,9 @@
 </style>
 <br>
 <ul class="menu-2">
-    <li><a href="${pageContext.request.contextPath}/managernewbookings"><fmt:message key="label.NewBookings" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/managerusebookings"><fmt:message key="label.BookingsInUse" /></a></li>
-    <li><a href="${pageContext.request.contextPath}/managerreturnedbookings"><fmt:message key="label.ReturnedBookings" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/managerNewBookings"><fmt:message key="label.NewBookings" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/managerUseBookings"><fmt:message key="label.BookingsInUse" /></a></li>
+    <li><a href="${pageContext.request.contextPath}/managerReturnedBookings"><fmt:message key="label.ReturnedBookings" /></a></li>
     <li><a href="${pageContext.request.contextPath}/logout"><fmt:message key="label.Logout" /></a></li>
     <fmt:message key="label.Language" />:
     <li><a href="?lang=en"><fmt:message key="label.en" /></a></li>
@@ -66,7 +66,7 @@
 <br>
 
 <h1>
-    <fmt:message key="label.NewBookings" /> <br/>
+    <fmt:message key="label.ReturnedBookings" /><br/>
 </h1>
 <table width="80%" cellspacing="1" cellpadding="4" border="1">
     <tr>
@@ -76,37 +76,25 @@
         <th><fmt:message key="label.LeaseTerm" /></th>
         <th><fmt:message key="label.Driver" /></th>
         <th><fmt:message key="label.Status" /></th>
-        <th><fmt:message key="label.Approve" /></th>
-        <th><fmt:message key="label.Reject" /></th>
+        <th><fmt:message key="label.Damage" /></th>
+        <th><fmt:message key="label.DamagePaid" /></th>
     </tr>
-    <c:forEach var="b" items="${newBookings}">
+    <c:forEach var="i" items="${returnedBookings}">
     <tr>
-        <td><fmt:message key="label.login" />: ${b.account.login}<br/>
-            <fmt:message key="label.email" />: ${b.account.email}<br/>
-            <fmt:message key="label.blocked" />: ${b.account.blocked}</td>
-        <td>${b.passport}</td>
-        <td><c:forEach var="c" items="${b.cars}">
+        <td><fmt:message key="label.login" />: ${i.account.login}<br/>
+            <fmt:message key="label.email" />: ${i.account.email}<br/>
+            <fmt:message key="label.blocked" />: ${i.account.blocked}</td>
+        <td>${i.passport}</td>
+        <td><c:forEach var="c" items="${i.cars}">
             <fmt:message key="label.Model" />: ${c.model}<br/>
             <fmt:message key="label.QualityClass" />: ${c.qualityClass}<br/>
             <fmt:message key="label.Price" />: ${c.price}<br><br>
         </c:forEach></td>
-        <td>${b.leaseTerm}</td>
-        <td align="center">${b.driver}</td>
-        <td>${b.status}</td>
-        <td align="center">
-            <form method="post" action="${pageContext.request.contextPath}/managerchanges">
-                <input type="hidden" name="id" value="${b.id}"/>
-                <input type="hidden" name="act" value="Approve Booking"/>
-                <input class="button" type="submit" name="action" value="<fmt:message key="label.ApproveBooking" />">
-            </form>
-        </td>
-        <td align="center">
-            <form action="${pageContext.request.contextPath}/managerchanges" method="post">
-                <input type="hidden" name="id" value="${b.id}"/>
-                <input type="hidden" name="act" value="Reject Booking"/>
-                <input class="button" type="submit" name="action" value="<fmt:message key="label.RejectBooking" />"/>
-            </form>
-        </td>
+        <td>${i.leaseTerm}</td>
+        <td align="center">${i.driver}</td>
+        <td>${i.status}</td>
+        <td align="center">${i.damage}</td>
+        <td align="center">${i.damagePaid}</td>
         </c:forEach>
 </table>
 <br>

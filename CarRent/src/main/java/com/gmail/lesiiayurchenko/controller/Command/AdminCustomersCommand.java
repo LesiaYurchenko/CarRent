@@ -43,7 +43,7 @@ public class AdminCustomersCommand implements Command {
         request.setAttribute("noOfPages", numberOfPages);
         request.setAttribute("currentPage", currentPage);
 
-        return "/WEB-INF/admin/admincustomers.jsp";
+        return "/WEB-INF/admin/adminCustomers.jsp";
     }
 }
 

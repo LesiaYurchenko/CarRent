@@ -48,7 +48,7 @@ public class CustomerBookCommand implements Command {
                 page = payForDamage(request);
                 break;
             default:
-                page = "redirect:/customerbasis";
+                page = "redirect:/customerBasis";
                 break;
         }
         return page;
@@ -63,7 +63,7 @@ public class CustomerBookCommand implements Command {
             return "/WEB-INF/error.jsp";
         }
         CommandUtility.putCarIntoSession(request, car);
-        return "redirect:/customerbasis";
+        return "redirect:/customerBasis";
     }
 
     private String deleteCar(HttpServletRequest request) {
@@ -75,13 +75,13 @@ public class CustomerBookCommand implements Command {
             return "/WEB-INF/error.jsp";
         }
         CommandUtility.removeCarFromSession(request, car);
-        return "redirect:/customerbasis";
+        return "redirect:/customerBasis";
     }
 
     private String book(HttpServletRequest request) {
         List<Car> cars = (ArrayList<Car>) request.getSession().getAttribute("cars");
         request.setAttribute("bookedCars" , cars);
-        return "/WEB-INF/customer/customerbook.jsp";
+        return "/WEB-INF/customer/customerBook.jsp";
     }
 
     private String order(HttpServletRequest request) {
@@ -106,7 +106,7 @@ public class CustomerBookCommand implements Command {
             log.error("Cannot create booking", e);
             return "/WEB-INF/error.jsp";
         }
-        return "/WEB-INF/customer/customerready.jsp";
+        return "/WEB-INF/customer/customerReady.jsp";
     }
 
     private String payForNew(HttpServletRequest request) {
@@ -117,7 +117,7 @@ public class CustomerBookCommand implements Command {
             log.error("Cannot pay booking", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/customerbookings";
+        return "redirect:/customerBookings";
     }
 
     private String payForDamage(HttpServletRequest request) {
@@ -128,7 +128,7 @@ public class CustomerBookCommand implements Command {
             log.error("Cannot pay damage", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/customerbookings";
+        return "redirect:/customerBookings";
     }
 
     private Car getCar (HttpServletRequest request) throws DBException {

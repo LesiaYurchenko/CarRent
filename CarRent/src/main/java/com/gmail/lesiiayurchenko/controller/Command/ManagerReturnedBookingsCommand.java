@@ -27,6 +27,6 @@ public class ManagerReturnedBookingsCommand implements Command {
             return "/WEB-INF/error.jsp";
         }
         returnedBookings.ifPresent(bookingList -> request.setAttribute("returnedBookings" , bookingList));
-        return "/WEB-INF/manager/managerreturnedbookings.jsp";
+        return "/WEB-INF/manager/managerReturnedBookings.jsp";
     }
 }

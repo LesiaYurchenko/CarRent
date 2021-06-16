@@ -28,7 +28,7 @@ public class Servlet extends HttpServlet {
         ServletContext servletContext = servletConfig.getServletContext();
         servletContext.setAttribute("loggedAccounts", new HashSet<String>());
         log.trace("Set loggedAccounts");
-        initCommandsContainer(servletContext);
+        initCommandsContainer();
         log.debug("Servlet initialization finished");
     }
 
@@ -62,24 +62,24 @@ public class Servlet extends HttpServlet {
         }
     }
 
-    private void initCommandsContainer (ServletContext servletContext) {
+    private void initCommandsContainer () {
         commands.put("logout", new LogOutCommand());
         commands.put("login", new LoginCommand());
         commands.put("registration", new RegistrationCommand(new AccountService()));
         commands.put("exception", new ExceptionCommand());
         commands.put("main", new MainCommand(new CarService()));
-        commands.put("admincars", new AdminCarsCommand(new CarService()));
-        commands.put("admincustomers", new AdminCustomersCommand(new AccountService()));
-        commands.put("adminmanagers", new AdminManagersCommand(new AccountService()));
-        commands.put("adminchanges", new AdminChangesCommand(new CarService(), new AccountService()));
-        commands.put("managernewbookings", new ManagerNewBookingsCommand(new BookingService()));
-        commands.put("managerusebookings", new ManagerUseBookingsCommand(new BookingService()));
-        commands.put("managerreturnedbookings", new ManagerReturnedBookingsCommand(new BookingService()));
-        commands.put("managerchanges", new ManagerChangesCommand(new BookingService()));
-        commands.put("customerbasis", new CustomerBasisCommand(new CarService()));
-        commands.put("customeraccount", new CustomerAccountCommand(new AccountService()));
-        commands.put("customerbook", new CustomerBookCommand(new CarService(), new BookingService(), new AccountService()));
-        commands.put("customerbookings", new CustomerBookingsCommand(new BookingService()));
+        commands.put("adminCars", new AdminCarsCommand(new CarService()));
+        commands.put("adminCustomers", new AdminCustomersCommand(new AccountService()));
+        commands.put("adminManagers", new AdminManagersCommand(new AccountService()));
+        commands.put("adminChanges", new AdminChangesCommand(new CarService(), new AccountService()));
+        commands.put("managerNewBookings", new ManagerNewBookingsCommand(new BookingService()));
+        commands.put("managerUseBookings", new ManagerUseBookingsCommand(new BookingService()));
+        commands.put("managerReturnedBookings", new ManagerReturnedBookingsCommand(new BookingService()));
+        commands.put("managerChanges", new ManagerChangesCommand(new BookingService()));
+        commands.put("customerBasis", new CustomerBasisCommand(new CarService()));
+        commands.put("customerAccount", new CustomerAccountCommand(new AccountService()));
+        commands.put("customerBook", new CustomerBookCommand(new CarService(), new BookingService(), new AccountService()));
+        commands.put("customerBookings", new CustomerBookingsCommand(new BookingService()));
 
         log.trace("Set commands --> " + commands);
     }

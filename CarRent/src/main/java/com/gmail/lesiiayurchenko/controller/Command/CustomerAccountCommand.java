@@ -27,6 +27,6 @@ public class CustomerAccountCommand  implements Command {
             return "/WEB-INF/error.jsp";
         }
         customer.ifPresent(acc -> request.setAttribute("account", acc));
-        return "/WEB-INF/customer/customeraccount.jsp";
+        return "/WEB-INF/customer/customerAccount.jsp";
     }
 }

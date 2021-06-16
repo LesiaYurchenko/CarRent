@@ -37,7 +37,7 @@ public class JDBCBookingDao implements BookingDao {
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             setDefaultCommitParameters(connection);
         }
@@ -107,7 +107,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return bookings.get(id);
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -125,7 +125,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         }
     }
 
@@ -144,7 +144,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -166,7 +166,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -175,7 +175,7 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public List<Booking> findAllRejected() throws DBException{
-        Map<Integer, Booking> bookings = new HashMap<>();
+        Map<Integer, Booking> bookings;
 
         String query = SQLConstants.FIND_ALL_REJECTED_BOOKINGS;
 
@@ -188,7 +188,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -196,7 +196,7 @@ public class JDBCBookingDao implements BookingDao {
     }
 
     public List<Booking> findAllPaid() throws DBException{
-        Map<Integer, Booking> bookings = new HashMap<>();
+        Map<Integer, Booking> bookings;
 
         String query = SQLConstants.FIND_ALL_PAID_BOOKINGS;
 
@@ -209,7 +209,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -217,7 +217,7 @@ public class JDBCBookingDao implements BookingDao {
     }
 
     public List<Booking> findAllReturned() throws DBException{
-        Map<Integer, Booking> bookings = new HashMap<>();
+        Map<Integer, Booking> bookings;
 
         String query = SQLConstants.FIND_ALL_RETURNED_BOOKINGS;
 
@@ -230,7 +230,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -239,7 +239,7 @@ public class JDBCBookingDao implements BookingDao {
 
     @Override
     public List<Booking> findAllByCustomer(int customerID) throws DBException{
-        Map<Integer, Booking> bookings = new HashMap<>();
+        Map<Integer, Booking> bookings;
 
         String query = SQLConstants.FIND_ALL_BOOKINGS_BY_CUSTOMER;
 
@@ -252,7 +252,7 @@ public class JDBCBookingDao implements BookingDao {
             bookings = find(rs);
             return new ArrayList<>(bookings.values());
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(rs);
             close(pstmt);
@@ -268,7 +268,7 @@ public class JDBCBookingDao implements BookingDao {
         CarMapper carMapper = new CarMapper();
         AccountMapper accountMapper = new AccountMapper();
 
-        Booking booking = null;
+        Booking booking;
 
         try {
             while (rs.next()) {
@@ -301,7 +301,7 @@ public class JDBCBookingDao implements BookingDao {
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             setDefaultCommitParameters(connection);
         }
@@ -322,7 +322,7 @@ public class JDBCBookingDao implements BookingDao {
             pstmt.setInt(k, booking.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -335,7 +335,7 @@ public class JDBCBookingDao implements BookingDao {
             pstmt.setInt(1, bookingID);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             close(pstmt);
         }
@@ -351,7 +351,7 @@ public class JDBCBookingDao implements BookingDao {
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
-            throw new DBException(DBException.DBEXCEPTION, e);
+            throw new DBException(DBException.DB_EXCEPTION, e);
         } finally {
             setDefaultCommitParameters(connection);
         }

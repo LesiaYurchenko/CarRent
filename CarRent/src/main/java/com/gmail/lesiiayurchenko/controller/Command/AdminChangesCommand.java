@@ -51,7 +51,7 @@ public class AdminChangesCommand implements Command {
                 page = registerNewManager(request);
                 break;
             default:
-                page = "redirect:/admincars";
+                page = "redirect:/adminCars";
                 break;
         }
         return page;
@@ -83,7 +83,7 @@ public class AdminChangesCommand implements Command {
             log.error("Cannot update car", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/admincars";
+        return "redirect:/adminCars";
     }
 
     private String deleteCar(HttpServletRequest request) {
@@ -94,7 +94,7 @@ public class AdminChangesCommand implements Command {
             log.error("Cannot make car available", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/admincars";
+        return "redirect:/adminCars";
     }
 
     private String createCar(HttpServletRequest request) {
@@ -109,7 +109,7 @@ public class AdminChangesCommand implements Command {
             log.error("Cannot add car", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/admincars";
+        return "redirect:/adminCars";
     }
 
     private String blockCustomer(HttpServletRequest request) {
@@ -120,7 +120,7 @@ public class AdminChangesCommand implements Command {
             log.error("Cannot block account", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/admincustomers";
+        return "redirect:/adminCustomers";
     }
 
     private String unblockCustomer(HttpServletRequest request) {
@@ -131,7 +131,7 @@ public class AdminChangesCommand implements Command {
             log.error("Cannot unblock account", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/admincustomers";
+        return "redirect:/adminCustomers";
     }
 
     private String blockManager(HttpServletRequest request) {
@@ -142,7 +142,7 @@ public class AdminChangesCommand implements Command {
             log.error("Cannot block account", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/adminmanagers";
+        return "redirect:/adminManagers";
     }
 
     private String unblockManager(HttpServletRequest request) {
@@ -153,7 +153,7 @@ public class AdminChangesCommand implements Command {
             log.error("Cannot unblock account", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/adminmanagers";
+        return "redirect:/adminManagers";
     }
 
     private String registerNewManager(HttpServletRequest request) {
@@ -166,7 +166,7 @@ public class AdminChangesCommand implements Command {
             log.error("Cannot register manager", e);
             return "/WEB-INF/error.jsp";
         }
-        return "redirect:/adminmanagers";
+        return "redirect:/adminManagers";
     }
 
     private Car getCar(HttpServletRequest request) throws DBException {
